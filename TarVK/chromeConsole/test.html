@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
+    
+    <script src='https://raw.githack.com/TarVK/chromeConsole/master/console.js'></script>
+    <link rel=stylesheet href='https://raw.githack.com/TarVK/chromeConsole/master/console.css'>
+    
+    <style>
+      html {height:100%}
+      body {height:calc(100% - 40px;margin:20px;display:flex;flex-direction:column}
+      
+      .console {border: 1px solid #ccc;}
+      
+    </style>
+    
+    
+    
+  </head>
+
+  <body>
+  
+    <div class=console></div>
+    
+  </body>
+    
+    
+    
+    <script>
+console.clear();
+
+
+(async()=>{
+
+/*  
+        var txt   = await fetch('https://raw.githubusercontent.com/javascript-2020/ext-code/main/ext-loader.js')
+                      .then(res=>res.text());
+        var ext   = eval(txt);
+        
+        var [github]    = await ext.load.libs('github/github.js.api');
+        
+        var url     = github.parse.to.raw('https://github.com/TarVK/chromeConsole/blob/master/console.js');
+        var js      = await fetch(url).then(res=>res.text());
+        eval(js);
+        
+        var url     = github.parse.to.raw('https://github.com/TarVK/chromeConsole/blob/master/console.css');
+        var css     = await fetch(url).then(res=>res.text());
+        var style   = document.createElement('style');
+        style.textContent   = css;
+        document.head.append(style);
+*/
+                
+        var cons = $('.console').console({
+          mode: 'r',
+          onInput: function (text) {},
+          onRightClick: function (obj) {},
+        });
+
+        cons.info('start');
+        //cons.inputEditor.insert('"((?:.|\\s)+?)"');
+        cons.log('hello');
+        cons.log({ hello: 'world' });
+        cons.log(fn);
+        
+        
+        function fn(){
+          
+              alert(1);
+              
+        }//fn
+        
+        
+              
+
+
+
+        
+})();
+
+
+
+
+    </script>
+    
+</html>
