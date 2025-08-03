@@ -1,5 +1,4 @@
 
-
 (function() {
     var Range = ace.require("ace/range").Range;
     var log = console.log.bind(console); //for debugging, as I have variables called console
@@ -1107,7 +1106,9 @@
         this.element = element;
     };
     Console.prototype.HtmlElement = Console.HtmlElement;
-    
+
+    $.fn.console = Console;
+
     return Console;
     
 })();
