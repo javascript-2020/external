@@ -1107,7 +1107,7 @@
     };
     Console.prototype.HtmlElement = Console.HtmlElement;
 
-    $.fn.console = Console;
+    //$.fn.console = Console;
 
     return Console;
     
