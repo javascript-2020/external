@@ -1,12 +1,4 @@
-// Symbol polyfill for IE
-if (!Array.from)
-    Array.from = function(inp) {
-        var ar = [];
-        for (var i = 0; i < inp.length; i++) {
-            ar.push(inp[i]);
-        }
-        return ar;
-    };
+
 
 (function() {
     var Range = ace.require("ace/range").Range;
