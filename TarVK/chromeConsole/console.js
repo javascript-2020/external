@@ -1115,5 +1115,7 @@ if (!Array.from)
         this.element = element;
     };
     Console.prototype.HtmlElement = Console.HtmlElement;
-    $.fn.console = Console;
+    
+    return Console;
+    
 })();
