@@ -667,7 +667,7 @@
             for (var i = 0; i < keys.length; i++) {
                 var key = keys[i];
                 var name = "on" + key[0].toUpperCase() + key.substring(1);
-                if (this.data[name]) this.on(key, this.data[name]);
+                if (this.data[name]) this[`on${key}`]=this.data[name];
             }
         } else {
             if (!this[0].console) this[0].console = new Console(data, this[0]);
