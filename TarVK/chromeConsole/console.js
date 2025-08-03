@@ -560,7 +560,7 @@
             var This = this;
             var el = element;
             el.innerHTML    = consoleTemplate;
-            el.addClass("js-console root");
+            el.classList.add("js-console root");
             element.oncontextmenu = function() {
                 return false;
             };
