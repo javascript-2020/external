@@ -558,7 +558,7 @@
             if (!data) data = {};
 
             var This = this;
-            var el = $(element);
+            var el = element;
             el.html(consoleTemplate);
             el.addClass("js-console root");
             element.oncontextmenu = function() {
