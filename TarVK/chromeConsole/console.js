@@ -865,11 +865,28 @@
       }//input
       
       
-      Console.prototype.$print = function(clas) {
+      function define(html){
+      
+            var host          = document.createElement('div');
+            host.innerHTML    = html;
+            var node          = div.firstElementChild;
+            return node;
+            
+      }//define
+      
+      
+      Console.prototype.$print    = function(clas){
         
-            var isMaxScroll   = $(this.element).scrollTop()>=this.element.scrollHeight-$(this.element).height()-10;
-            var el            = $(outputTemplate);
-            var out           = el.find(".outputData");
+            var st            = this.element.scrollTop;
+            var sh            = this.element.scrollHeight;
+            var h             = this.element.offsetHeight;
+            
+            var max           = sh-h-10;
+            var isMaxScroll   = (st>=max);
+            
+            
+            var el            = define(outputTemplate);
+            var out           = el.querySelector('.outputData');
     
             var objects       = Array.from(arguments);
             objects.shift();
@@ -892,28 +909,29 @@
                   ){
                         out.append(arg.element);
                   }else{
-                        var dataObject = new DataObject(arg, dataObj);
+                        var dataObject    = new DataObject(arg,dataObj);
                         dataObjects.push(dataObject);
                         out.append(dataObject.getElement());
                   }
                   
             }//for
     
-            el.addClass(clas);
+            el.classList.add(clas);
             if(this.showIcons){
-                  el.addClass("ace_gutter-cell ace_" + (clas == "warn" ? "warning" : clas));
+                  el.classList.add("ace_gutter-cell ace_" + (clas == "warn" ? "warning" : clas));
             }
     
             this.outputEl.append(el);
             if(isMaxScroll){
-                                                                                    //  scroll all the way down if it was all the way down
-                  $(this.element).scrollTop(this.element.scrollHeight); 
+                                                                                //  scroll all the way down if it was all the way down
+                  this.element.scrollTop    = this.element.scrollHeight; 
             }
     
             dataObj.dataObjects   = dataObjects;
             this.outputs.push(dataObj);
             this.elementLog.push(dataObj);
-            this.$removeElement(); //remove elements if the limit has been reached
+                                                                                //  remove elements if the limit has been reached
+            this.$removeElement();
             return dataObj;
           
       }//$print
@@ -921,11 +939,12 @@
       
       Console.prototype.output = function() {
       
-            var args = Array.from(arguments);
-            args.unshift("return");
-            var ret = this.$print.apply(this, args);
-            var el = ret.element;
-            el.append("<div class='" + dividerClass + "'></div>");
+            var args    = Array.from(arguments);
+            args.unshift('return');
+            var ret     = this.$print.apply(this, args);
+            var el      = ret.element;
+            var node    = define("<div class='"+dividerClass+"'></div>");
+            el.append(node);
             return ret;
             
       }//output
