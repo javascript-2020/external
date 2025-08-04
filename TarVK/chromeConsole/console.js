@@ -38,18 +38,18 @@
         var maxStringPreviewLength    = 30; //characters
         
         var inputCodeTemplate =
-            "<div class='js-console inputLine'>" +
-                "<div class='js-console inputArrow'></div>" +
-                "<div class='js-console inputCode'></div>" +
-                "<div style=clear:both></div>" +
-            "</div>"; //prettier-ignore
+            "<div class='js-console inputLine'>"              +
+                "<div class='js-console inputArrow'></div>"   +
+                "<div class='js-console inputCode'></div>"    +
+                "<div style=clear:both></div>"                +
+            "</div>";
             
         var outputTemplate =
             "<div class='js-console outputLine'>"             +
                 "<div class='js-console outputIcon'></div>"   +
                 "<div class='js-console outputData'></div>"   +
                 "<div style=clear:both></div>"                +
-            "</div>"; //prettier-ignore
+            "</div>";
             
         var consoleTemplate =
             "<div class='js-console output'>"   +
