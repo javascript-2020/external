@@ -434,11 +434,10 @@
                                     this.previewElement   = this.getPreviewElement(this.prefix);
                               } else this.previewElement = this.createObjectName(0);
                         }
-                        this.element
-                            .find(".header")
-                            .first()
-                            .html("")
-                            .append(this.previewElement);
+                        var node    = this.element.querySelector(".header");
+                        var first   = node.firstElementChild;
+                        first.replaceChildren();
+                        first.append(this.previewElement);
                   }
                   if(depth==0){
                         this.createObjectData();
