@@ -181,38 +181,35 @@
       
       function createCollapseEl(clas, parClass) {
         
-            var element = $(
-                "<span class='js-console-collapsible js-console " + (parClass || "") +"'>" +
-                    "<div class='js-console-collapsible header-outer js-console'>"+
-                        "<span class='js-console header-arrow'></span>"+
-                        "<div class='js-console-collapsible header js-console " + clas +"'></div>" +
-                    "</div>" +
-                    "<br>"+
-                    "<div class='js-console-collapsible content js-console " +clas +"' style=display:none></div>" +
+            var element = define(
+                "<span class='js-console-collapsible js-console " + (parClass || "") +"'>"                          +
+                    "<div class='js-console-collapsible header-outer js-console'>"                                  +
+                        "<span class='js-console header-arrow'></span>"                                             +
+                        "<div class='js-console-collapsible header js-console " + clas +"'></div>"                  +
+                    "</div>"                                                                                        +
+                    "<br>"                                                                                          +
+                    "<div class='js-console-collapsible content js-console " +clas +"' style=display:none></div>"   +
                 "</span>"
-            ); // prettier-ignore
+            );
             
-            element
-                .find(".header-outer")
-                .first()
-                .mouseup(function(e) {
-                    if (e.button == 0) {
-                        // Store the current scroll offset
-                        var consoleEl = $(this).closest(".js-console.root");
-                        var offset =
-                            consoleEl[0].scrollHeight -
-                            consoleEl.height() -
-                            consoleEl.scrollTop();
+            var node    = element.querySelector(".header-outer").firstElementChild;
+            
+            node.onmouseup    = function(e) {
+            
+                    if(e.button==0){
+                                                                                // Store the current scroll offset
+                        var consoleEl   = $(this).closest(".js-console.root");
+                        var offset      = consoleEl[0].scrollHeight-consoleEl.height()-consoleEl.scrollTop();
     
-                        // Expand or collapse
+                                                                                //  Expand or collapse
                         e.preventDefault();
-                        if (!element.is(".open")) {
+                        if(!element.is(".open")){
                             element
                                 .addClass("open")
                                 .find(".content")
                                 .first()
                                 .show();
-                        } else {
+                        }else{
                             element
                                 .removeClass("open")
                                 .find(".content")
@@ -220,19 +217,15 @@
                                 .hide();
                         }
     
-                        // Restore the current offset (Relative to the bottom of the element)
-                        var maxScroll =
-                            element.offset().top -
-                            consoleEl.offset().top +
-                            consoleEl.scrollTop();
-                        var minScroll =
-                            maxScroll -
-                            consoleEl.height() +
-                            element
+                                                                                //  Restore the current offset
+                                                                                //  (Relative to the bottom of the element)
+                        var maxScroll   = element.offset().top -consoleEl.offset().top +consoleEl.scrollTop();
+                        var minScroll   = maxScroll -consoleEl.height() +element
                                 .find(".header")
                                 .first()
                                 .height();
-                        // MaxScroll and minScroll make sure the element's haeder never scrolls out of the screen
+                                                                                //  MaxScroll and minScroll make sure the element's
+                                                                                //  haeder never scrolls out of the screen
                         consoleEl.scrollTop(
                             Math.min(
                                 maxScroll,
@@ -245,13 +238,18 @@
                             )
                         );
                     }
-                })
-                .mousedown(function(e) {
-                    // Remove double click text selection: https://stackoverflow.com/a/43321596
-                    if (e.button == 0 && e.detail > 1) {
-                        e.preventDefault();
+                    
+                }//onmouseup
+                
+                node.onmousedown    = function(e) {
+                                                                                //  Remove double click text selection:
+                                                                                //  https://stackoverflow.com/a/43321596
+                    if(e.button==0 && e.detail>1){
+                          e.preventDefault();
                     }
-                });
+                    
+                }//onmousedown
+                
             return element;
           
       }//createCollapse
