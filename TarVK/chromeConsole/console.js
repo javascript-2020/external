@@ -151,11 +151,11 @@
         
         function getKeySymbolText(val, clas) {
         
-              return (
-                  "<span class='"+(clas||"")+" objectKeySymbol ace_constant ace_language'>"   +
-                      htmlEscape(val.toString())                                              +
-                  "</span>";
-              );
+              return `
+                  <span class='${clas||""}+ objectKeySymbol ace_constant ace_language'>
+                      ${htmlEscape(val.toString())}
+                  </span>
+              `;
               
         }//getKeySymbolText
         
