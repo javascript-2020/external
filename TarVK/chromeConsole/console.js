@@ -484,8 +484,8 @@
                     }
               }
       
-              if(!hadElement && this.element){
-                  this.element[0].data    = this;
+              if(!hadElement && this.element){debugger;
+                  this.element.data         = this;
                   this.element.onmouseup    = function(e){
                   
                         if(e.button==2){
