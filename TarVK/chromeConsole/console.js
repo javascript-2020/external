@@ -4,11 +4,11 @@
 (function() {
   
         var Range           = ace.require("ace/range").Range;
-        var log             = console.log.bind(console); //for debugging, as I have variables called console
+        var log             = console.log.bind(console);
         var fileRegex       = /((?:https?:\/\/|www\.)(?:(?:[^\.\:])*(?:\.|\:))(?:[^:\/]+\/)*([^:\/]+)*)(?::(\d*))?(?::(\d*))?/; // extracts the line number at the end of a file in an error log
         var evalFileRegex   = /\((((?:[^):\/]+\/)*([^):\/]+)*)(?::(\d*))?(?::(\d*))?)/;
         
-        var htmlEscape = function(text, format) {
+        var htmlEscape    = function(text, format){
         
               if(typeof text=="symbol"){
                     text = text.toString();
@@ -29,7 +29,7 @@
               text    = text.replace(/\t/g,"<span style=display:inline-block;margin-left:20px></span>");
               return text;
               
-        };//htmlescape
+        }//htmlescape
         
         
         var maxLogLength              = 140;
