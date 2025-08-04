@@ -392,64 +392,58 @@
                               
                         });
                   }
-            } else if (
-                this.data != null &&
-                (typeof this.data == "object" || specialObj(this.data))
-            ) {
-                var newElement = false;
-                if (!this.element) {
-                    newElement = true;
-                    if (this.data) {
-                        var isArray = this.data instanceof Array;
-                        var isFunc = this.data instanceof Function;
-                    }
-    
-                    this.element = createCollapseEl(
-                        (isArray ? "array" : isFunc ? "function" : "object") +
-                            "Output"
-                    );
+            }else if(this.data != null && (typeof this.data=="object" || specialObj(this.data))){
+                var newElement    = false;
+                if(!this.element){
+                      newElement    = true;
+                      if(this.data){
+                            var isArray   = this.data instanceof Array;
+                            var isFunc    = this.data instanceof Function;
+                      }
+      
+                      this.element    = createCollapseEl((isArray ? "array" : isFunc ? "function" : "object") +"Output");
                 }
     
-                if (depth <= 1) {
-                    if (!this.previewElement) {
-                        if (specialObj(this.data)) {
-                            this.previewElement = this.getPreviewElement(
-                                this.prefix
-                            );
-                        } else this.previewElement = this.createObjectName(0);
-                    }
-                    this.element
-                        .find(".header")
-                        .first()
-                        .html("")
-                        .append(this.previewElement);
+                if(depth<=1){
+                      if(!this.previewElement){
+                            if(specialObj(this.data)){
+                                  this.previewElement   = this.getPreviewElement(this.prefix);
+                            } else this.previewElement = this.createObjectName(0);
+                      }
+                      this.element
+                          .find(".header")
+                          .first()
+                          .html("")
+                          .append(this.previewElement);
                 }
-                if (depth == 0) {
-                    this.createObjectData();
-                } else if (newElement) {
+                if(depth==0){
+                      this.createObjectData();
+                }else if(newElement){
                     this.element
                         .find(".header-outer")
                         .first()
                         .click(function(e) {
-                            var opens = This.element.is(".open");
-                            if (opens) {
-                                This.getElement();
-                                if (!specialObj(This.data))
-                                    This.element
-                                        .find(".header")
-                                        .first()
-                                        .html(This.prefix);
-                            } else {
-                                This.element.children(".content").html("");
-                                if (!specialObj(This.data))
-                                    This.element
-                                        .find(".header")
-                                        .first()
-                                        .html(This.previewElement);
-                            }
+                        
+                              var opens = This.element.is(".open");
+                              if (opens) {
+                                  This.getElement();
+                                  if (!specialObj(This.data))
+                                      This.element
+                                          .find(".header")
+                                          .first()
+                                          .html(This.prefix);
+                              } else {
+                                  This.element.children(".content").html("");
+                                  if (!specialObj(This.data))
+                                      This.element
+                                          .find(".header")
+                                          .first()
+                                          .html(This.previewElement);
+                              }
+                              
                         });
                 }
-            } else {
+            }else{
                 if (!this.element) this.element = $(this.getNonObjectData());
             }
     
@@ -469,158 +463,189 @@
       };//getElement
       
       
-      DataObject.prototype.getNonObjectData = function(preview) {
-          if (typeof this.data == "number")
-              return (
-                  "<span class='numberOutput'>" +
-                      this.prefix + getNumericText(this.data, "value") +
-                  "</span>"
-              ); //prettier-ignore
-          else if (typeof this.data == "string") {
-              var text = this.data;
-              if (preview && text.length > maxStringPreviewLength)
-                  text = text.substring(0, maxStringPreviewLength - 3) + "...";
-              // return "<span class='stringOutput'>"+this.prefix+getStringText('"'+text+'"', "value")+"</span>";
-              return (
-                  "<span class='stringOutput'><table><tr>" + 
-                      "<td>" +
-                          this.prefix +
-                      "</td>" +
-                      "<td class=indent>" +
-                          getStringText('"' + text + '"', "value") +
-                      "</td>" +
-                  "</tr></table></span>"
-              ); //prettier-ignore
-          } else if (typeof this.data == "boolean")
-              return (
-                  "<span class='undefinedOutput'>" +
-                      this.prefix + getBooleanText(this.data, "value") +
-                  "</span>"
-              ); //prettier-ignore
-          else if (typeof this.data == "function")
-              return (
-                  "<span class='functionOutput'>" + 
-                      this.prefix + func + 
-                  "</span>"
-              ); //prettier-ignore
-          else if (this.data instanceof RegExp)
-              return (
-                  "<span class='regexOutput'>" +
-                      this.prefix + getRegexText(this.data, "value") +
-                  "</span>"
-              ); //prettier-ignore
-          else if (this.data === null)
-              return (
-                  "<span class='nullOutput'>" + 
-                      this.prefix + nul + 
-                  "</span>"
-              ); //prettier-ignore
-          else if (this.data === undefined)
-              return (
-                  "<span class='undefinedOutput'>" +
-                      this.prefix + undef +
-                  "</span>"
-              ); //prettier-ignore
-          else if (this.data instanceof Error)
-              return (
-                  "<span class='errorOutput'>" +
-                      this.prefix + getErrorText(this.data) +
-                  "</span>"
-              ); //prettier-ignore
-          else if (typeof this.data == "symbol")
-              return (
-                  "<span class='symbol'>" +
-                      this.prefix + getSymbolText(this.data) +
-                  "</span>"
-              ); //prettier-ignore
-          return "<span class='rawOutput'>" + this.prefix + this.data + "</span>";
-      };
-      DataObject.prototype.createObjectData = function() {
-          var keys = Object.getOwnPropertyNames(this.data);
-          //Symbols are still not universally supported. But if they do exist, include in output
-          if (Object.getOwnPropertySymbols)
-              keys = keys.concat(Object.getOwnPropertySymbols(this.data));
-          if (this.data && this.data.__proto__ != Object.prototype)
-              keys.push("__proto__");
-          for (var i = 0; i < keys.length; i++) {
-              var key = keys[i];
-              try {
-                  //try to catch arguments request on function
-  
-                  var obj;
-                  if (this.getterObj && key != "__proto__")
-                      obj = this.getterObj[key];
-                  else obj = this.data[key];
-  
-                  // var obj = this.data[key];
-                  var dObj = new DataObject(obj, this.outputLineData, this, key);
-                  if (key == "__proto__")
-                      dObj.getterObj = this.getterObj || this.data;
-  
-                  this.element
-                      .children(".content")
-                      .append(
-                          dObj.getElement(
-                              (typeof key == "symbol" ? getKeySymbolText(key) : getKeyText(key)) + colon + " ",
-                              1
-                          )
-                      ); //prettier-ignore
-  
-                  if (i < keys.length - 1)
-                      this.element.children(".content").append($("<br>"));
-              } catch (e) {}
-          }
-      };
+      DataObject.prototype.getNonObjectData   = function(preview) {
+        
+            if (typeof this.data == "number")
+                return (
+                    "<span class='numberOutput'>" +
+                        this.prefix + getNumericText(this.data, "value") +
+                    "</span>"
+                ); //prettier-ignore
+            else if (typeof this.data == "string") {
+                var text = this.data;
+                if (preview && text.length > maxStringPreviewLength)
+                    text = text.substring(0, maxStringPreviewLength - 3) + "...";
+                // return "<span class='stringOutput'>"+this.prefix+getStringText('"'+text+'"', "value")+"</span>";
+                return (
+                    "<span class='stringOutput'><table><tr>" + 
+                        "<td>" +
+                            this.prefix +
+                        "</td>" +
+                        "<td class=indent>" +
+                            getStringText('"' + text + '"', "value") +
+                        "</td>" +
+                    "</tr></table></span>"
+                ); //prettier-ignore
+            } else if (typeof this.data == "boolean")
+                return (
+                    "<span class='undefinedOutput'>" +
+                        this.prefix + getBooleanText(this.data, "value") +
+                    "</span>"
+                ); //prettier-ignore
+            else if (typeof this.data == "function")
+                return (
+                    "<span class='functionOutput'>" + 
+                        this.prefix + func + 
+                    "</span>"
+                ); //prettier-ignore
+            else if (this.data instanceof RegExp)
+                return (
+                    "<span class='regexOutput'>" +
+                        this.prefix + getRegexText(this.data, "value") +
+                    "</span>"
+                ); //prettier-ignore
+            else if (this.data === null)
+                return (
+                    "<span class='nullOutput'>" + 
+                        this.prefix + nul + 
+                    "</span>"
+                ); //prettier-ignore
+            else if (this.data === undefined)
+                return (
+                    "<span class='undefinedOutput'>" +
+                        this.prefix + undef +
+                    "</span>"
+                ); //prettier-ignore
+            else if (this.data instanceof Error)
+                return (
+                    "<span class='errorOutput'>" +
+                        this.prefix + getErrorText(this.data) +
+                    "</span>"
+                ); //prettier-ignore
+            else if (typeof this.data == "symbol")
+                return (
+                    "<span class='symbol'>" +
+                        this.prefix + getSymbolText(this.data) +
+                    "</span>"
+                ); //prettier-ignore
+            return "<span class='rawOutput'>" + this.prefix + this.data + "</span>";
+          
+      };//getNonObjectData
+      
+      
+      DataObject.prototype.createObjectData   = function() {
+      
+            var keys = Object.getOwnPropertyNames(this.data);
+                                                                                //  Symbols are still not universally supported.
+                                                                                //  But if they do exist, include in output
+            if (Object.getOwnPropertySymbols)
+                  keys = keys.concat(Object.getOwnPropertySymbols(this.data));
+            if (this.data && this.data.__proto__ != Object.prototype)
+                  keys.push("__proto__");
+                  
+            for (var i=0;i<keys.length;i++){
+            
+                var key   = keys[i];
+                try {
+                                                                                //  try to catch arguments request on function
+                    var obj;
+                    if(this.getterObj && key!="__proto__"){
+                          obj   = this.getterObj[key];
+                    }else{
+                          obj   = this.data[key];
+                    }
+    
+                                                                                // var obj = this.data[key];
+                    var dObj    = new DataObject(obj,this.outputLineData,this,key);
+                    if(key=="__proto__"){
+                          dObj.getterObj    = this.getterObj || this.data;
+                    }
+    
+                    this.element
+                        .children(".content")
+                        .append(
+                            dObj.getElement(
+                                (typeof key == "symbol" ? getKeySymbolText(key) : getKeyText(key)) + colon + " ",
+                                1
+                            )
+                        ); //prettier-ignore
+    
+                    if(i<keys.length-1){
+                          this.element.children(".content").append($("<br>"));
+                    }
+                    
+                }//try
+                catch(e){}
+                
+            }//for
+          
+      };//createObjectData
+      
+      
       DataObject.prototype.createObjectName = function(depth) {
+      
           var keys = Object.keys(this.data);
-          //Symbols are still not universally supported. But if they do exist, include in output
-          if (Object.getOwnPropertySymbols)
-              keys = keys.concat(Object.getOwnPropertySymbols(this.data));
-          var isArray = this.data instanceof Array;
-          var maxLength = maxObjectPreviewLength;
-          var previewEl = $("<span></span>");
+                                                                                //  Symbols are still not universally supported.
+                                                                                //  But if they do exist, include in output
+          if(Object.getOwnPropertySymbols){
+                keys    = keys.concat(Object.getOwnPropertySymbols(this.data));
+          }
+          var isArray     = this.data instanceof Array;
+          var maxLength   = maxObjectPreviewLength;
+          var previewEl   = $("<span></span>");
   
           previewEl.append(this.prefix);
-          if (isArray) previewEl.append("(" + keys.length + ") ");
-          else if (this.data.__proto__ != Object.prototype)
-              previewEl.append(this.data.__proto__.constructor.name + " ");
+          
+          if(isArray){
+                previewEl.append("(" + keys.length + ") ");
+          }else{
+                if (this.data.__proto__ != Object.prototype){
+                      previewEl.append(this.data.__proto__.constructor.name + " ");
+                }
+          }
           previewEl.append(isArray ? lSquareBrack : lBrace);
   
-          if (depth < 1) {
-              for (
-                  var i = 0;
-                  i < keys.length && previewEl.text().length < maxLength;
-                  i++
-              ) {
-                  var key = keys[i];
-  
-                  var obj;
-                  if (this.getterObj && key != "__proto__")
-                      obj = this.getterObj[key];
-                  else obj = this.data[key];
-  
-                  var dObj = new DataObject(obj);
-                  if (key == "__proto__")
-                      dObj.getterObj = this.getterObj || this.data;
-  
-                  if (i > 0) previewEl.append(comma + " ");
-                  previewEl.append(
-                      dObj.getPreviewElement(
-                          isArray && key == i
-                              ? ""
-                              : htmlEscape(key) + colon + " ",
-                          depth + 1
-                      )
-                  );
-              }
-              if (i < keys.length) previewEl.append(comma + " " + ddd);
-          } else {
-              previewEl.append(ddd);
+          if(depth<1){
+              
+                for(var i = 0;i < keys.length && previewEl.text().length < maxLength;i++) {
+                
+                      var key = keys[i];
+      
+                      var obj;
+                      if (this.getterObj && key != "__proto__")
+                          obj = this.getterObj[key];
+                      else obj = this.data[key];
+      
+                      var dObj = new DataObject(obj);
+                      if (key == "__proto__")
+                          dObj.getterObj = this.getterObj || this.data;
+      
+                      if (i > 0) previewEl.append(comma + " ");
+                      previewEl.append(
+                          dObj.getPreviewElement(
+                              isArray && key == i
+                                  ? ""
+                                  : htmlEscape(key) + colon + " ",
+                              depth + 1
+                          )
+                      );
+                    
+                }//for
+                
+                if(i<keys.length){
+                      previewEl.append(comma+" "+ddd);
+                }
+                
+          }else{
+                previewEl.append(ddd);
           }
   
           previewEl.append(isArray ? rSquareBrack : rBrace);
           return previewEl;
-      };
+          
+      };//createObjectName
+      
+      
       DataObject.prototype.getPath = function() {
           if (this.parent) {
               return this.parent.getPath() + "." + this.name;
