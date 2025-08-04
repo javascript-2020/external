@@ -433,7 +433,15 @@
                                 var isFunc    = this.data instanceof Function;
                           }
           
-                          this.element    = createCollapseEl((isArray ? "array" : isFunc ? "function" : "object") +"Output");
+                          var name    = 'object';
+                          if(isArray){
+                                name    = 'array';
+                          }
+                          if(isFunc){
+                                name    = 'function';
+                          }
+                          name   += 'Output';
+                          this.element    = createCollapseEl(name);
                     }
       
                     if(depth<=1){
@@ -613,17 +621,24 @@
                             dObj.getterObj    = this.getterObj || this.data;
                       }
       
-                      this.element
-                          .children(".content")
-                          .append(
-                              dObj.getElement(
-                                  (typeof key == "symbol" ? getKeySymbolText(key) : getKeyText(key)) + colon + " ",
-                                  1
-                              )
-                          ); //prettier-ignore
-      
+                      var list    = this.element.querySelectorAll(':scope>.content');
+                      list.forEach(node=>{
+                            
+                            var k     = typeof key=='symbol' ? getKeySymbolText(key) : getKeyText(key);
+                            var t     = k+colon+" ";
+                            var el    = dObj.getElement(t,1);
+                            debugger;
+                            node.append(el);
+                      });
+                      
                       if(i<keys.length-1){
-                            this.element.children(".content").append($("<br>"));
+                            var list    = this.element.querySelectorAll(':scope>.content');
+                            list.forEach(node=>{
+                            
+                                  var br    = document.createElement('br');
+                                  node.append(br)
+                                  
+                            });
                       }
                       
                   }//try
@@ -631,7 +646,7 @@
                   
               }//for
             
-        };//createObjectData
+        }//createObjectData
         
         
         DataObject.prototype.createObjectName = function(depth) {
