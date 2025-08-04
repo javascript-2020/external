@@ -627,8 +627,9 @@
     
             if(depth<1){
                 
-                  var n   = 0;
-                  var n   = keys.length && previewEl.text().length<maxLength; 
+                  var txt   = previewEl.textContent;
+                  var n     = keys.length && txt.length<maxLength; 
+                  
                   for(var i=0;i<n;i++){
                   
                         var key   = keys[i];
