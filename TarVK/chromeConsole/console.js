@@ -610,43 +610,49 @@
             }
             var isArray     = this.data instanceof Array;
             var maxLength   = maxObjectPreviewLength;
-            var previewEl   = define("<span></span>");
+            var previewEl   = define('<span></span>');
     
             previewEl.append(this.prefix);
             
             if(isArray){
                   previewEl.append("(" + keys.length + ") ");
             }else{
-                  if (this.data.__proto__ != Object.prototype){
-                        previewEl.append(this.data.__proto__.constructor.name + " ");
+                  if(this.data.__proto__!=Object.prototype){
+                        previewEl.append(this.data.__proto__.constructor.name+" ");
                   }
             }
-            previewEl.append(isArray ? lSquareBrack : lBrace);
+            var html    = isArray ? lSquareBrack : lBrace;
+            var node    = define(html);
+            previewEl.append(node);
     
             if(depth<1){
                 
-                  for(var i = 0;i < keys.length && previewEl.text().length < maxLength;i++) {
+                  var n   = 0;
+                  var n   = keys.length && previewEl.text().length<maxLength; 
+                  for(var i=0;i<n;i++){
                   
-                        var key = keys[i];
+                        var key   = keys[i];
         
                         var obj;
-                        if (this.getterObj && key != "__proto__")
-                            obj = this.getterObj[key];
-                        else obj = this.data[key];
+                        if(this.getterObj && key!="__proto__"){
+                              obj   = this.getterObj[key];
+                        }else{
+                              obj   = this.data[key];
+                        }
         
-                        var dObj = new DataObject(obj);
-                        if (key == "__proto__")
-                            dObj.getterObj = this.getterObj || this.data;
+                        var dObj    = new DataObject(obj);
+                        if(key=="__proto__"){
+                              dObj.getterObj    = this.getterObj || this.data;
+                        }
         
-                        if (i > 0) previewEl.append(comma + " ");
-                        previewEl.append(
-                            dObj.getPreviewElement(
-                                isArray && key == i
-                                    ? ""
-                                    : htmlEscape(key) + colon + " ",
-                                depth + 1
-                            )
-                        );
+                        if(i>0){
+                              previewEl.append(comma+" ");
+                        }
+                        
+                        var t   = isArray && key==i ? "" : htmlEscape(key)+colon+" ";
+                        var r   = dObj.getPreviewElement(t,depth+1);
+                        debugger;
+                        previewEl.append(r);
                       
                   }//for
                   
@@ -658,7 +664,9 @@
                   previewEl.append(ddd);
             }
     
-            previewEl.append(isArray ? rSquareBrack : rBrace);
+            var html    = isArray ? rSquareBrack : rBrace;
+            var node    = define(html);
+            previewEl.append(node);
             return previewEl;
             
         };//createObjectName
