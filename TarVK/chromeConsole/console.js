@@ -1404,11 +1404,11 @@
         
         
                                                                                     // console events
-        Console.prototype.onInput = function(func, remove) {
+        Console.prototype.onInput   = function(func,remove){
         
-              this.on("input", func, remove);
+              this.on("input",func,remove);
               
-        };//onInput
+        }//onInput
         
         
         Console.prototype.onElementRemove = function(func, remove) {
