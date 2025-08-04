@@ -638,7 +638,7 @@
                     }
                 });
             }
-            el.addClass("ace-" + data.theme + " " + data.style);
+            el.classList.add("ace-" + data.theme);// + ", " data.style);
 
             //FIX: "Input element isn't focussed when clicking in the history element #5"
             el.click(function(e) {
