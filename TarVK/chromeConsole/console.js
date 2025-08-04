@@ -647,18 +647,20 @@
       
       
       DataObject.prototype.getPath = function() {
-          if (this.parent) {
-              return this.parent.getPath() + "." + this.name;
-          } else {
-              return this.outputLineData.dataObjects.indexOf(this) + "";
-          }
-      };
+      
+            if (this.parent) {
+                return this.parent.getPath() + "." + this.name;
+            } else {
+                return this.outputLineData.dataObjects.indexOf(this) + "";
+            }
+            
+      };//getPath
   
   
   
   
                                                                                   //console interface
-      var Console = function(data, element) {
+      var Console = function(data,element){
       
             if (Object.keys(this).length == 0) {
             
