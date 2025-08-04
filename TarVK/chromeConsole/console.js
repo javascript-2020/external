@@ -433,7 +433,9 @@
                           if(!this.previewElement){
                                 if(specialObj(this.data)){
                                       this.previewElement   = this.getPreviewElement(this.prefix);
-                                } else this.previewElement = this.createObjectName(0);
+                                }else{
+                                      this.previewElement   = this.createObjectName(0);
+                                }
                           }
                           var node    = this.element.querySelector(".header");
                           var first   = node.firstElementChild;
@@ -442,6 +444,7 @@
                                 first.append(this.previewElement);
                           }
                     }
+                    
                     if(depth==0){
                           this.createObjectData();
                     }else if(newElement){
