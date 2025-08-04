@@ -442,36 +442,37 @@
                   if(depth==0){
                         this.createObjectData();
                   }else if(newElement){
-                      this.element
-                          .find(".header-outer")
-                          .first()
-                          .click(function(e) {
-                          
-                                var opens = This.element.is(".open");
-                                if (opens) {
+                        var node        = this.element.querySelector(".header-outer");
+                        var first       = node.firstElementChild;
+                        first.onclick   = function(e) {
+                            
+                              var opens   = This.element.classList.contains('open');
+                              if(opens){
                                     This.getElement();
-                                    if (!specialObj(This.data))
-                                        This.element
-                                            .find(".header")
-                                            .first()
-                                            .html(This.prefix);
-                                } else {
-                                    This.element.children(".content").html("");
-                                    if (!specialObj(This.data))
-                                        This.element
-                                            .find(".header")
-                                            .first()
-                                            .html(This.previewElement);
-                                }
-                                
-                          });
-                  }
-              }else{
-                  if(!this.element){
-                        var r   = this.getNonObjectData();
-                        debugger;
-                        this.element = r;
-                  }
+                                    if(!specialObj(This.data)){
+                                    
+                                          var node          = This.element.querySelector('.header');
+                                          var first         = node.firstElementChild;
+                                          first.innerHTML   = This.prefix;
+                                    }else{
+                                          var list    = This.element.querySelectorAll(':scope>.content');
+                                          list.forEach(node=>node.replaceChildren());
+                                          
+                                          if(!specialObj(This.data)){
+                                                var node    = This.element.querySelector('.header');
+                                                var first   = node.firstElementChild;
+                                                first.append(This.previewElement);
+                                          }
+                                    }
+                              }
+                              
+                        }//onclick
+                  }else{
+                        if(!this.element){
+                              var r   = this.getNonObjectData();
+                              debugger;
+                              this.element = r;
+                        }
               }
       
               if(!hadElement && this.element){
