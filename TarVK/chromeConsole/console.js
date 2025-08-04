@@ -1411,67 +1411,76 @@
         }//onInput
         
         
-        Console.prototype.onElementRemove = function(func, remove) {
+        Console.prototype.onElementRemove   = function(func,remove){
         
-              this.on("elementRemove", func, remove);
+              this.on('elementRemove',func,remove);
               
-        };//onElementRemove
+        }//onElementRemove
         
         
-        Console.prototype.onRightClick = function(func, remove) {
+        Console.prototype.onRightClick    = function(func, remove) {
         
               this.on("rightClick", func, remove);
               
-        };//onRightClick
+        }//onRightClick
         
         
-        Console.prototype.onTerminate = function(func, remove) {
+        Console.prototype.onTerminate   = function(func,remove){
         
-              this.on("terminate", func, remove);
+              this.on("terminate",func,remove);
               
-        };//onTerminate
+        }//onTerminate
         
         
-        Console.prototype.on = function(event, func, remove) {
+        Console.prototype.on    = function(event,func,remove){
         
-              var listeners = this.listeners[event];
-              if (listeners) {
-                  if (remove) {
-                      var index = listeners.indexOf(func);
-                      if (index >= 0) listeners.splice(index, 1);
-                  } else {
-                      listeners.push(func);
-                  }
+              var listeners   = this.listeners[event];
+              if(listeners){
+                    if(remove){
+                          var index   = listeners.indexOf(func);
+                          if(index>=0){
+                                listeners.splice(index,1);
+                          }
+                    }else{
+                          listeners.push(func);
+                    }
               }
               
-        };//on
+        }//on
         
         
-        Console.prototype.$trigger = function(event) {
+        Console.prototype.$trigger    = function(event){
         
-              var listeners = this.listeners[event];
-              if (listeners) {
-                  var args = Array.from(arguments);
+              var listeners   = this.listeners[event];
+              if(listeners){
+                  var args    = Array.from(arguments);
                   args.shift();
       
-                  var out = undefined;
-                  for (var i = 0; i < listeners.length; i++) {
-                      var listener = listeners[i];
-                      var ret = listener.apply(this, args);
-                      if (ret !== undefined) out = ret;
-                  }
+                  var out   = undefined;
+                  
+                  for(var i=0;i<listeners.length;i++){
+                  
+                        var listener    = listeners[i];
+                        var ret         = listener.apply(this,args);
+                        if(ret!==undefined){
+                              out   = ret;
+                        }
+                        
+                  }//for
       
                   return out;
               }
               return false;
               
-        };//$trigger
+        }//$trigger
     
     
                                                                                     // special log input objects
-        Console.LineNumber = function(file, lineNumber, trace) {
+        Console.prototype.LineNumber    = Console.LineNumber;
+                                                                                    
+        Console.LineNumber    = function(file,lineNumber,trace){
         
-              if(typeof file == "number"){
+              if(typeof file=="number"){
                                                                                     //  figure out the file from stack trace
                     var nodes   = new Error("").stack.split("\n");
                     nodes.shift();
@@ -1484,48 +1493,60 @@
               lineNumber    = lineNumber!=null ? lineNumber : "";
       
               if(trace){
-                    var fileData    = getFileLocationElement(trace, "lineNumber");
+                    var fileData    = getFileLocationElement(trace,"lineNumber");
                     if(fileData){
                           this.element      = fileData.el;
                           this.file         = fileData.file;
                           this.lineNumber   = fileData.lineNumber;
                     }else{
-                          this.element    = $("<span class=lineNumber>&lt;anonymous&gt;</span>");
+                          this.element      = define("<span class=lineNumber>&lt;anonymous&gt;</span>");
                     }
               }else{
                     var spacer      = file!="" && lineNumber!="" ? ":" : "";
-                    this.element    = $("<span class=lineNumber>"+file+spacer+lineNumber+"</span>");
+                    this.element    = define("<span class=lineNumber>"+file+spacer+lineNumber+"</span>");
               }
       
               this.file         = file;
               this.lineNumber   = lineNumber;
               
-        };//LineNumber
+        }//LineNumber
         
+
         
-        Console.prototype.LineNumber    = Console.LineNumber;
+        Console.prototype.PlainText   = Console.PlainText;
         
         Console.PlainText   = function(text){
         
             this.text       = text;
-            this.element    = $("<span class='js-console plainText'>" +htmlEscape(text, true) +"</span>");
+            this.element    = define("<span class='js-console plainText'>" +htmlEscape(text, true) +"</span>");
             
-        };//PlainText
+        }//PlainText
         
         
-        Console.prototype.PlainText   = Console.PlainText;
+        
+        Console.prototype.HtmlElement   = Console.HtmlElement;
         
         Console.HtmlElement   = function(element) {
         
               this.element = element;
               
-        };//HtmlElement
+        }//HtmlElement
         
         
-        Console.prototype.HtmlElement   = Console.HtmlElement;
+
     
         //$.fn.console = Console;
     
         return Console;
+
+
+
     
 })();
+
+
+
+
+
+
+
