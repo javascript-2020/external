@@ -665,7 +665,6 @@
                         
                         var t   = isArray && key==i ? "" : htmlEscape(key)+colon+" ";
                         var r   = dObj.getPreviewElement(t,depth+1);
-                        debugger;
                         previewEl.append(r);
                       
                   }//for
