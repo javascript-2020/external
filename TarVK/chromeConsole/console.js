@@ -357,9 +357,9 @@
               if(this.data!=null && typeof this.data=="object" && !specialObj(this.data)){
                     return this.createObjectName(depth);
               }else{
-                    var r   = this.getNonObjectData(true);
-                    debugger;
-                    return r;
+                    var html    = this.getNonObjectData(true);
+                    var node    = define(html);
+                    return node;
               }
               
         }//getPreviewElement
