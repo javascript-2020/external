@@ -523,126 +523,182 @@
         
         
         DataObject.prototype.getNonObjectData   = function(preview) {
-          
-              if (typeof this.data == "number")
-                    return (
-                        "<span class='numberOutput'>" +
-                            this.prefix + getNumericText(this.data, "value") +
-                        "</span>"
-                    );
-              else if (typeof this.data == "string") {
-                    var text = this.data;
-                    if (preview && text.length > maxStringPreviewLength)
-                        text = text.substring(0, maxStringPreviewLength - 3) + "...";
-                    // return "<span class='stringOutput'>"+this.prefix+getStringText('"'+text+'"', "value")+"</span>";
-                    return (
-                        "<span class='stringOutput'><table><tr>" + 
-                            "<td>" +
-                                this.prefix +
-                            "</td>" +
-                            "<td class=indent>" +
-                                getStringText('"' + text + '"', "value") +
-                            "</td>" +
-                        "</tr></table></span>"
-                    );
-              } else if (typeof this.data == "boolean")
-                    return (
-                        "<span class='undefinedOutput'>" +
-                            this.prefix + getBooleanText(this.data, "value") +
-                        "</span>"
-                    );
-              else if (typeof this.data == "function")
-                    return (
-                        "<span class='functionOutput'>" + 
-                            this.prefix + func + 
-                        "</span>"
-                    );
-              else if (this.data instanceof RegExp)
-                    return (
-                        "<span class='regexOutput'>" +
-                            this.prefix + getRegexText(this.data, "value") +
-                        "</span>"
-                    );
-              else if (this.data === null)
-                    return (
-                        "<span class='nullOutput'>" + 
-                            this.prefix + nul + 
-                        "</span>"
-                    );
-              else if (this.data === undefined)
-                    return (
-                        "<span class='undefinedOutput'>" +
-                            this.prefix + undef +
-                        "</span>"
-                    );
-              else if (this.data instanceof Error)
-                    return (
-                        "<span class='errorOutput'>" +
-                            this.prefix + getErrorText(this.data) +
-                        "</span>"
-                    );
-              else if (typeof this.data == "symbol")
-                    return (
-                        "<span class='symbol'>" +
-                            this.prefix + getSymbolText(this.data) +
-                        "</span>"
-                    );
+        
+              var html;
+              
+              switch(true){
+              
+                case (typeof this.data=="number")   :
+                
+                                                      html    = `
+                                                          <span class='numberOutput'>
+                                                              ${this.prefix+getNumericText(this.data,"value")}
+                                                          </span>
+                                                      `;
+                                                      
+                                                      break;
+                                                      
+                case (typeof this.data=='string')   :
+                
+                                                      var text    = this.data;
+                                                      if(preview && text.length>maxStringPreviewLength){
+                                                            text    = text.substring(0,maxStringPreviewLength-3)+"...";
+                                                      }
+                                                      html    = `
+                                                          <span class='stringOutput'>
+                                                                <table>
+                                                                      <tr>
+                                                                            <td>
+                                                                                ${this.prefix}
+                                                                            </td>
+                                                                            <td class=indent>
+                                                                                ${getStringText('"'+text+'"',"value")}
+                                                                            </td>
+                                                                      </tr>
+                                                                </table>
+                                                          </span>
+                                                      `;
+                                                      
+                                                      break;
+                                                      
+                case (typeof this.data=="boolean")  :
+              
+                                                      html    = `
+                                                          <span class='undefinedOutput'>
+                                                              ${this.prefix+getBooleanText(this.data,"value")}
+                                                          </span>
+                                                      `;
+                                                      
+                                                      break;
+                                                      
+                case (typeof this.data=='function') :
+              
+                                                      html    = `
+                                                          <span class='functionOutput'>
+                                                              ${this.prefix+func}
+                                                          </span>
+                                                      `;
+                                                      
+                                                      break;
+                                                      
+                case (this.data instanceof RegExp)  :
+              
+                                                      html    = `
+                                                          <span class='regexOutput'>
+                                                              ${this.prefix+getRegexText(this.data,"value")}
+                                                          </span>
+                                                      `;
+                                                      
+                                                      break;
+                                                      
+                case (this.data === null)           :
+              
+                                                      html    = `
+                                                          <span class='nullOutput'>
+                                                              ${this.prefix+nul}
+                                                          </span>
+                                                      `;
+                                                      
+                                                      break;
+                                                      
+                case (this.data === undefined)      :
+              
+                                                      html    = `
+                                                          <span class='undefinedOutput'>
+                                                              ${this.prefix+undef}
+                                                          </span>
+                                                      `;
+                                                      
+                                                      break;
+                                                      
+                case (this.data instanceof Error)   :
+              
+                                                      html    = `
+                                                          <span class='errorOutput'>
+                                                              ${this.prefix+getErrorText(this.data)}
+                                                          </span>
+                                                      `;
+                                                      
+                                                      break;
+                                                      
+                case (typeof this.data=='symbol')   :
+              
+                                                      html    = `
+                                                          <span class='symbol'>
+                                                              ${this.prefix+getSymbolText(this.data)}
+                                                          </span>
+                                                      `;
+                                                      
+                                                      break;
                     
-              return "<span class='rawOutput'>" + this.prefix + this.data + "</span>";
+                default                             :
+              
+                                                      html    = `
+                                                            <span class='rawOutput'>
+                                                                  ${this.prefix+this.data}
+                                                            </span>
+                                                      `;
+              }//switch
+              
+              var node    = define(html);
+              return node;
             
         }//getNonObjectData
         
         
         DataObject.prototype.createObjectData   = function() {
         
-              var keys = Object.getOwnPropertyNames(this.data);
+              var keys    = Object.getOwnPropertyNames(this.data);
                                                                                   //  Symbols are still not universally supported.
                                                                                   //  But if they do exist, include in output
-              if (Object.getOwnPropertySymbols)
-                    keys = keys.concat(Object.getOwnPropertySymbols(this.data));
-              if (this.data && this.data.__proto__ != Object.prototype)
-                    keys.push("__proto__");
-                    
-              for (var i=0;i<keys.length;i++){
+              if(Object.getOwnPropertySymbols){
+                    keys    = keys.concat(Object.getOwnPropertySymbols(this.data));
+              }
               
-                  var key   = keys[i];
-                  try {
-                                                                                  //  try to catch arguments request on function
-                      var obj;
-                      if(this.getterObj && key!="__proto__"){
-                            obj   = this.getterObj[key];
-                      }else{
-                            obj   = this.data[key];
-                      }
-      
-                                                                                  // var obj = this.data[key];
-                      var dObj    = new DataObject(obj,this.outputLineData,this,key);
-                      if(key=="__proto__"){
-                            dObj.getterObj    = this.getterObj || this.data;
-                      }
-      
-                      var list    = this.element.querySelectorAll(':scope>.content');
-                      list.forEach(node=>{
-                            
-                            var k     = typeof key=='symbol' ? getKeySymbolText(key) : getKeyText(key);
-                            var t     = k+colon+" ";
-                            var el    = dObj.getElement(t,1);
-                            debugger;
-                            node.append(el);
-                      });
-                      
-                      if(i<keys.length-1){
-                            var list    = this.element.querySelectorAll(':scope>.content');
-                            list.forEach(node=>{
-                            
-                                  var br    = document.createElement('br');
-                                  node.append(br)
-                                  
-                            });
-                      }
-                      
-                  }//try
-                  catch(e){}
+              if(this.data && this.data.__proto__ != Object.prototype){
+                    keys.push("__proto__");
+              }
+                    
+              for(var i=0;i<keys.length;i++){
+              
+                    var key   = keys[i];
+                    try {
+                                                                                //  try to catch arguments request on function
+                          var obj;
+                          if(this.getterObj && key!="__proto__"){
+                                obj   = this.getterObj[key];
+                          }else{
+                                obj   = this.data[key];
+                          }
+          
+                                                                                // var obj = this.data[key];
+                          var dObj    = new DataObject(obj,this.outputLineData,this,key);
+                          if(key=="__proto__"){
+                                dObj.getterObj    = this.getterObj || this.data;
+                          }
+          
+                          var list    = this.element.querySelectorAll(':scope>.content');
+                          list.forEach(node=>{
+                                
+                                var k     = typeof key=='symbol' ? getKeySymbolText(key) : getKeyText(key);
+                                var t     = k+colon+" ";
+                                var el    = dObj.getElement(t,1);
+                                debugger;
+                                node.append(el);
+                          });
+                          
+                          if(i<keys.length-1){
+                                var list    = this.element.querySelectorAll(':scope>.content');
+                                list.forEach(node=>{
+                                
+                                      var br    = document.createElement('br');
+                                      node.append(br)
+                                      
+                                });
+                          }
+                        
+                    }//try
+                    catch(e){}
                   
               }//for
             
