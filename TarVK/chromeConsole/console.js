@@ -372,7 +372,7 @@
         }//getPreviewElement
         
         
-        DataObject.prototype.getElement   = function(prefix,depth){
+        DataObject.prototype.getElement   = function(prefix,depth){debugger;
         
               var This          = this;
               var hadElement    = this.element;
