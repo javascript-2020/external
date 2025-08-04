@@ -208,7 +208,7 @@
                                                                                   //  Expand or collapse
                           e.preventDefault();
                           
-                          if(!element.classList.contains('.open')){
+                          if(!element.classList.contains('open')){
                               element.classList.add('open');
                               var node              = element.querySelector('.content');
                               var first             = node.firstElementChild;
@@ -378,31 +378,40 @@
       
               if(this.data instanceof Error){
                     if(!this.element){
-                          this.element    = createCollapseEl("errorMessage", "errorOutput");
-                          this.element.find(".header").append(getErrorText(this.data));
-                          var errorStack    = htmlEscape(this.data.stack, false);
+                          this.element    = createCollapseEl("errorMessage","errorOutput");
+                          var node        = this.element.querySelector('.header');
+                          var txt         = getErrorText(this.data);
+                          node.append(txt);
+                          var errorStack    = htmlEscape(this.data.stack,false);
                           var errorLines    = errorStack.split("\n");
                                                                                   //first line isn't needed
                           errorLines.shift();
-                          errorLines.forEach(function(line) {
+                          errorLines.forEach(function(line){
                           
-                                var lineEl    = $("<span>");
-                                This.element.children(".content").append(lineEl);
-                                var file      = getFileLocationElement(line, "errorLocation");
+                                var lineEl    = define("<span>");
+                                This.element.querySelectorAll(':scope>.content').forEach(node=>{
+                                
+                                      var clone   = lineEl.cloneNode(true);
+                                      node.append(clone);
+                                      
+                                });
+                                
+                                var file      = getFileLocationElement(line,'errorLocation');
                                 if(file){
-                                      lineEl.append(
-                                          "<span margin-left:20px;>" +
-                                              line.substring(0, file.start) +
-                                              "</span>"
-                                      );
+                                      var html    = 
+                                            "<span margin-left:20px;>"            +
+                                                  line.substring(0,file.start)    +
+                                            "</span>";
+                                      var node    = define(html);
+                                      lineEl.append(node);
                                       lineEl.append(file.el);
-                                      lineEl.append(
-                                          "<span>" + line.substring(file.end) + "</span><br>"
-                                      );
-                                } else {
-                                      lineEl.append(
-                                          "<span margin-left:20px;>" + line + "</span><br>"
-                                      );
+                                      var html    = "<span>"+line.substring(file.end)+"</span><br>";
+                                      var node    = define(html);
+                                      lineEl.append(node);
+                                }else{
+                                      var html    = "<span margin-left:20px;>"+line+"</span><br>";
+                                      var node    = define(html);
+                                      lineEl.append(node);
                                 }
                                 
                           });
@@ -459,23 +468,29 @@
                           });
                   }
               }else{
-                  if (!this.element) this.element = $(this.getNonObjectData());
+                  if(!this.element){
+                        var r   = this.getNonObjectData();
+                        debugger;
+                        this.element = r;
+                  }
               }
       
-              if (!hadElement && this.element) {
-                  this.element[0].data = this;
-                  this.element.mouseup(function(e) {
-                      if (e.button == 2) {
-                          This.outputLineData.console.$trigger("rightClick", This);
-                          e.stopImmediatePropagation();
-                          e.preventDefault();
-                      }
-                  });
+              if(!hadElement && this.element){
+                  this.element[0].data    = this;
+                  this.element.onmouseup    = function(e){
+                  
+                        if(e.button==2){
+                              This.outputLineData.console.$trigger("rightClick",This);
+                              e.stopImmediatePropagation();
+                              e.preventDefault();
+                        }
+                      
+                  }//onmouseup
               }
       
               return this.element;
             
-        };//getElement
+        }//getElement
         
         
         DataObject.prototype.getNonObjectData   = function(preview) {
