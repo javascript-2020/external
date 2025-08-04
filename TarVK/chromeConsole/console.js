@@ -388,6 +388,7 @@
                           this.element    = createCollapseEl("errorMessage","errorOutput");
                           var node        = this.element.querySelector('.header');
                           var txt         = getErrorText(this.data);
+                          if(typeof txt=='string')debugger;
                           node.append(txt);
                           var errorStack    = htmlEscape(this.data.stack,false);
                           var errorLines    = errorStack.split("\n");
@@ -411,6 +412,7 @@
                                             "</span>";
                                       var node    = define(html);
                                       lineEl.append(node);
+                                      if(typeof file.el=='string')debugger;
                                       lineEl.append(file.el);
                                       var html    = "<span>"+line.substring(file.end)+"</span><br>";
                                       var node    = define(html);
@@ -461,6 +463,7 @@
                           var first   = node.firstElementChild;
                           if(first){
                                 first.replaceChildren();
+                                if(typeof this.previewElement=='string')debugger;
                                 first.append(this.previewElement);
                           }
                     }
@@ -488,6 +491,7 @@
                                             if(!specialObj(This.data)){
                                                   var node    = This.element.querySelector('.header');
                                                   var first   = node.firstElementChild;
+                                                  if(typeof This.previewElement=='string')debugger;
                                                   first.append(This.previewElement);
                                             }
                                       }
@@ -683,7 +687,7 @@
                                 var k     = typeof key=='symbol' ? getKeySymbolText(key) : getKeyText(key);
                                 var t     = k+colon+" ";
                                 var el    = dObj.getElement(t,1);
-                                debugger;
+                                if(typeof el=='string')debugger;
                                 node.append(el);
                           });
                           
@@ -1384,15 +1388,19 @@
         };//$makeStringsPlain
         
         
-        Console.prototype.$addDivider = function(element) {
+        Console.prototype.$addDivider   = function(element){
         
-              var data = this.elementLog[this.elementLog.length - 2];
-              if (data && data.element.is(".inputLine")) {
-                  element.prepend("<div class='" + dividerClass + "'></div>");
-              }
-              element.append("<div class='" + dividerClass + "'></div>");
+              var data    = this.elementLog[this.elementLog.length-2];
               
-        };//$addDivider
+              if(data && data.element.classList.contains('inputLine')){
+                    var node    = define("<div class='"+dividerClass+"'></div>");
+                    element.insertBefore(node,element.firstChild);
+              }
+              
+              var node    = define("<div class='"+dividerClass+"'></div>");
+              element.append(node);
+              
+        }//$addDivider
         
         
                                                                                     // console events
