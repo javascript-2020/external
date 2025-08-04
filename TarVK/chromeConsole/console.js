@@ -574,7 +574,7 @@
             //create ace editors
             this.outputEl = el.querySelector(".output");
             this.inputEditor = setupEditor(
-                el.find(".input")[0],
+                el.querySelectorAll(".input")[0],
                 data.theme,
                 data.mode
             );
