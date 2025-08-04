@@ -149,13 +149,14 @@
         }//getSymbolText
         
         
-        function getKeySymbolText(val, clas) {
+        function getKeySymbolText(val,clas){
         
-              return `
+              var str   = `
                   <span class='${clas||""}+ objectKeySymbol ace_constant ace_language'>
                       ${htmlEscape(val.toString())}
                   </span>
               `;
+              return str;
               
         }//getKeySymbolText
         
