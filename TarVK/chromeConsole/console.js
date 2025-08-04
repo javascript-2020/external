@@ -2,26 +2,27 @@
 
 
 (function() {
+
   
         var Range           = ace.require("ace/range").Range;
         var log             = console.log.bind(console);
         var fileRegex       = /((?:https?:\/\/|www\.)(?:(?:[^\.\:])*(?:\.|\:))(?:[^:\/]+\/)*([^:\/]+)*)(?::(\d*))?(?::(\d*))?/; // extracts the line number at the end of a file in an error log
         var evalFileRegex   = /\((((?:[^):\/]+\/)*([^):\/]+)*)(?::(\d*))?(?::(\d*))?)/;
         
-        var htmlEscape    = function(text, format){
+        var htmlEscape      = function(text,format){
         
               if(typeof text=="symbol"){
                     text = text.toString();
               }
-              text    = text.replace(/&/g, "&amp;");
-              text    = text.replace(/</g, "&lt;");
-              text    = text.replace(/>/g, "&gt;");
+              text    = text.replace(/&/g,"&amp;");
+              text    = text.replace(/</g,"&lt;");
+              text    = text.replace(/>/g,"&gt;");
               
               if(format===false){
                     return text;
               }
               if(!format){
-                    return text.replace(/\n/g, "&crarr;");
+                    return text.replace(/\n/g,"&crarr;");
               }
               
               text    = text.replace(/^(\s(?!\n))+/gm,m=>("<span style=display:inline-block;margin-left:"+m.length*10+"px></span>"));
@@ -77,7 +78,7 @@
                   "<span class='" + (clas || "") +" ace_constant ace_numeric'>" +
                       htmlEscape(val.toString()) +
                   "</span>"
-              ); //prettier-ignore
+              );
               
         }//getNumericText
         
@@ -88,7 +89,7 @@
                   "<span class='" + (clas || "") + " ace_string'>" +
                       htmlEscape(val.toString()) +
                   "</span>"
-              ); //prettier-ignore
+              );
             
         }//getStringText
         
@@ -99,7 +100,7 @@
                   "<span class='" + (clas || "") + " ace_string'>" +
                       htmlEscape(val.toString()) +
                   "</span>"
-              ); //prettier-ignore
+              );
               
         }//getRegexText
         
@@ -110,7 +111,7 @@
                   "<span class='" + (clas || "") + " ace_constant ace_language ace_boolean'>" +
                       htmlEscape(val.toString()) +
                   "</span>"
-              ); //prettier-ignore
+              );
               
         }//getBooleanText
         
@@ -121,7 +122,7 @@
                   "<span class='" + (clas || "") + " errorText'>" +
                       htmlEscape(val.toString()) +
                   "</span>"
-              ); //prettier-ignore
+              );
               
         }//getErrorText
         
@@ -132,7 +133,7 @@
                   "<span class='" + (clas || "") + " objectKey ace_constant ace_language'>" +
                       htmlEscape(val.toString()) +
                   "</span>"
-              ); //prettier-ignore
+              );
               
         }//getKeyText
         
@@ -143,7 +144,7 @@
                   "<span class='" + (clas || "") + " objectSymbol ace_string ace_language'>" +
                       htmlEscape(val.toString()) +
                   "</span>"
-              ); //prettier-ignore
+              );
               
         }//getSymbolText
         
@@ -151,10 +152,10 @@
         function getKeySymbolText(val, clas) {
         
               return (
-                  "<span class='" + (clas || "") + " objectKeySymbol ace_constant ace_language'>" +
-                      htmlEscape(val.toString()) +
-                  "</span>"
-              ); //prettier-ignore
+                  "<span class='"+(clas||"")+" objectKeySymbol ace_constant ace_language'>"   +
+                      htmlEscape(val.toString())                                              +
+                  "</span>";
+              );
               
         }//getKeySymbolText
         
@@ -162,19 +163,21 @@
                                                                                   //some util functions
         function setupEditor(el, style, mode) {
         
-              var editor = ace.edit(el);
-              editor.setTheme("ace/theme/" + style);
-              editor.getSession().setMode("ace/mode/" + mode);
+              var editor    = ace.edit(el);
+              editor.setTheme("ace/theme/"+style);
+              editor.getSession().setMode("ace/mode/"+mode);
               editor.getSession().setUseWrapMode(true);
               editor.getSession().setUseSoftTabs(true);
               editor.setShowPrintMargin(false);
               editor.setOptions({
-                  maxLines: Infinity
+                    maxLines    : Infinity
               });
-              editor.$blockScrolling = Infinity;
+              editor.$blockScrolling    = Infinity;
               editor.renderer.setShowGutter(false);
-              editor.on("blur", function() {
-                  editor.session.selection.clearSelection();
+              editor.on("blur",function(){
+              
+                    editor.session.selection.clearSelection();
+                    
               });
               return editor;
               
@@ -437,6 +440,11 @@
                                       this.previewElement   = this.createObjectName(0);
                                 }
                           }
+                          
+                          if(typeof this.previewElement=='string'){
+                                this.previewElement   = define(this.previewElement);
+                          }
+                          
                           var node    = this.element.querySelector(".header");
                           var first   = node.firstElementChild;
                           if(first){
@@ -484,7 +492,7 @@
                     }
               }
       
-              if(!hadElement && this.element){debugger;
+              if(!hadElement && this.element){
                   this.element.data         = this;
                   this.element.onmouseup    = function(e){
                   
