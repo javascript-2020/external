@@ -365,7 +365,7 @@
         }//getPreviewElement
         
         
-        DataObject.prototype.getElement = function(prefix, depth) {
+        DataObject.prototype.getElement   = function(prefix,depth){
         
               var This          = this;
               var hadElement    = this.element;
@@ -417,62 +417,66 @@
                           });
                     }
               }else if(this.data != null && (typeof this.data=="object" || specialObj(this.data))){
-                  var newElement    = false;
-                  if(!this.element){
-                        newElement    = true;
-                        if(this.data){
-                              var isArray   = this.data instanceof Array;
-                              var isFunc    = this.data instanceof Function;
-                        }
-        
-                        this.element    = createCollapseEl((isArray ? "array" : isFunc ? "function" : "object") +"Output");
-                  }
+              
+                    var newElement    = false;
+                    if(!this.element){
+                          newElement    = true;
+                          if(this.data){
+                                var isArray   = this.data instanceof Array;
+                                var isFunc    = this.data instanceof Function;
+                          }
+          
+                          this.element    = createCollapseEl((isArray ? "array" : isFunc ? "function" : "object") +"Output");
+                    }
       
-                  if(depth<=1){
-                        if(!this.previewElement){
-                              if(specialObj(this.data)){
-                                    this.previewElement   = this.getPreviewElement(this.prefix);
-                              } else this.previewElement = this.createObjectName(0);
-                        }
-                        var node    = this.element.querySelector(".header");
-                        var first   = node.firstElementChild;
-                        first.replaceChildren();
-                        first.append(this.previewElement);
-                  }
-                  if(depth==0){
-                        this.createObjectData();
-                  }else if(newElement){
-                        var node        = this.element.querySelector(".header-outer");
-                        var first       = node.firstElementChild;
-                        first.onclick   = function(e) {
-                            
-                              var opens   = This.element.classList.contains('open');
-                              if(opens){
-                                    This.getElement();
-                                    if(!specialObj(This.data)){
-                                    
-                                          var node          = This.element.querySelector('.header');
-                                          var first         = node.firstElementChild;
-                                          first.innerHTML   = This.prefix;
-                                    }else{
-                                          var list    = This.element.querySelectorAll(':scope>.content');
-                                          list.forEach(node=>node.replaceChildren());
-                                          
-                                          if(!specialObj(This.data)){
-                                                var node    = This.element.querySelector('.header');
-                                                var first   = node.firstElementChild;
-                                                first.append(This.previewElement);
-                                          }
-                                    }
-                              }
+                    if(depth<=1){
+                          if(!this.previewElement){
+                                if(specialObj(this.data)){
+                                      this.previewElement   = this.getPreviewElement(this.prefix);
+                                } else this.previewElement = this.createObjectName(0);
+                          }
+                          var node    = this.element.querySelector(".header");
+                          var first   = node.firstElementChild;
+                          first.replaceChildren();
+                          first.append(this.previewElement);
+                    }
+                    if(depth==0){
+                          this.createObjectData();
+                    }else if(newElement){
+                    
+                          var node        = this.element.querySelector(".header-outer");
+                          var first       = node.firstElementChild;
+                          first.onclick   = function(e) {
                               
-                        }//onclick
-                  }else{
-                        if(!this.element){
-                              var r   = this.getNonObjectData();
-                              debugger;
-                              this.element = r;
-                        }
+                                var opens   = This.element.classList.contains('open');
+                                if(opens){
+                                      This.getElement();
+                                      if(!specialObj(This.data)){
+                                      
+                                            var node          = This.element.querySelector('.header');
+                                            var first         = node.firstElementChild;
+                                            first.innerHTML   = This.prefix;
+                                      }else{
+                                            var list    = This.element.querySelectorAll(':scope>.content');
+                                            list.forEach(node=>node.replaceChildren());
+                                            
+                                            if(!specialObj(This.data)){
+                                                  var node    = This.element.querySelector('.header');
+                                                  var first   = node.firstElementChild;
+                                                  first.append(This.previewElement);
+                                            }
+                                      }
+                                }
+                                
+                          }//onclick
+                          
+                    }
+              }else{
+                    if(!this.element){
+                          var r   = this.getNonObjectData();
+                          debugger;
+                          this.element = r;
+                    }
               }
       
               if(!hadElement && this.element){
