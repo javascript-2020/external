@@ -869,7 +869,7 @@
       
             var host          = document.createElement('div');
             host.innerHTML    = html;
-            var node          = div.firstElementChild;
+            var node          = host.firstElementChild;
             return node;
             
       }//define
