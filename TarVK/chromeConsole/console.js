@@ -348,23 +348,21 @@
         }//DataObject
   
         
-        DataObject.prototype.getPreviewElement = function(prefix, depth) {
+        DataObject.prototype.getPreviewElement    = function(prefix,depth){
         
               if(prefix){
                     this.prefix   = prefix;
               }
               
-              if(
-                  this.data != null &&
-                  typeof this.data == "object" &&
-                  !specialObj(this.data)
-              ){
-                  return this.createObjectName(depth);
+              if(this.data!=null && typeof this.data=="object" && !specialObj(this.data)){
+                    return this.createObjectName(depth);
               }else{
-                  return $(this.getNonObjectData(true));
+                    var r   = this.getNonObjectData(true);
+                    debugger;
+                    return r;
               }
               
-        };//getPreviewElement
+        }//getPreviewElement
         
         
         DataObject.prototype.getElement = function(prefix, depth) {
