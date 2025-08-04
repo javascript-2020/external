@@ -437,8 +437,10 @@
                           }
                           var node    = this.element.querySelector(".header");
                           var first   = node.firstElementChild;
-                          first.replaceChildren();
-                          first.append(this.previewElement);
+                          if(first){
+                                first.replaceChildren();
+                                first.append(this.previewElement);
+                          }
                     }
                     if(depth==0){
                           this.createObjectData();
