@@ -610,7 +610,7 @@
             }
             var isArray     = this.data instanceof Array;
             var maxLength   = maxObjectPreviewLength;
-            var previewEl   = $("<span></span>");
+            var previewEl   = define("<span></span>");
     
             previewEl.append(this.prefix);
             
