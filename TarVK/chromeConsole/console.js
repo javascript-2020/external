@@ -483,71 +483,72 @@
         DataObject.prototype.getNonObjectData   = function(preview) {
           
               if (typeof this.data == "number")
-                  return (
-                      "<span class='numberOutput'>" +
-                          this.prefix + getNumericText(this.data, "value") +
-                      "</span>"
-                  ); //prettier-ignore
+                    return (
+                        "<span class='numberOutput'>" +
+                            this.prefix + getNumericText(this.data, "value") +
+                        "</span>"
+                    );
               else if (typeof this.data == "string") {
-                  var text = this.data;
-                  if (preview && text.length > maxStringPreviewLength)
-                      text = text.substring(0, maxStringPreviewLength - 3) + "...";
-                  // return "<span class='stringOutput'>"+this.prefix+getStringText('"'+text+'"', "value")+"</span>";
-                  return (
-                      "<span class='stringOutput'><table><tr>" + 
-                          "<td>" +
-                              this.prefix +
-                          "</td>" +
-                          "<td class=indent>" +
-                              getStringText('"' + text + '"', "value") +
-                          "</td>" +
-                      "</tr></table></span>"
-                  ); //prettier-ignore
+                    var text = this.data;
+                    if (preview && text.length > maxStringPreviewLength)
+                        text = text.substring(0, maxStringPreviewLength - 3) + "...";
+                    // return "<span class='stringOutput'>"+this.prefix+getStringText('"'+text+'"', "value")+"</span>";
+                    return (
+                        "<span class='stringOutput'><table><tr>" + 
+                            "<td>" +
+                                this.prefix +
+                            "</td>" +
+                            "<td class=indent>" +
+                                getStringText('"' + text + '"', "value") +
+                            "</td>" +
+                        "</tr></table></span>"
+                    );
               } else if (typeof this.data == "boolean")
-                  return (
-                      "<span class='undefinedOutput'>" +
-                          this.prefix + getBooleanText(this.data, "value") +
-                      "</span>"
-                  ); //prettier-ignore
+                    return (
+                        "<span class='undefinedOutput'>" +
+                            this.prefix + getBooleanText(this.data, "value") +
+                        "</span>"
+                    );
               else if (typeof this.data == "function")
-                  return (
-                      "<span class='functionOutput'>" + 
-                          this.prefix + func + 
-                      "</span>"
-                  ); //prettier-ignore
+                    return (
+                        "<span class='functionOutput'>" + 
+                            this.prefix + func + 
+                        "</span>"
+                    );
               else if (this.data instanceof RegExp)
-                  return (
-                      "<span class='regexOutput'>" +
-                          this.prefix + getRegexText(this.data, "value") +
-                      "</span>"
-                  ); //prettier-ignore
+                    return (
+                        "<span class='regexOutput'>" +
+                            this.prefix + getRegexText(this.data, "value") +
+                        "</span>"
+                    );
               else if (this.data === null)
-                  return (
-                      "<span class='nullOutput'>" + 
-                          this.prefix + nul + 
-                      "</span>"
-                  ); //prettier-ignore
+                    return (
+                        "<span class='nullOutput'>" + 
+                            this.prefix + nul + 
+                        "</span>"
+                    );
               else if (this.data === undefined)
-                  return (
-                      "<span class='undefinedOutput'>" +
-                          this.prefix + undef +
-                      "</span>"
-                  ); //prettier-ignore
+                    return (
+                        "<span class='undefinedOutput'>" +
+                            this.prefix + undef +
+                        "</span>"
+                    );
               else if (this.data instanceof Error)
-                  return (
-                      "<span class='errorOutput'>" +
-                          this.prefix + getErrorText(this.data) +
-                      "</span>"
-                  ); //prettier-ignore
+                    return (
+                        "<span class='errorOutput'>" +
+                            this.prefix + getErrorText(this.data) +
+                        "</span>"
+                    );
               else if (typeof this.data == "symbol")
-                  return (
-                      "<span class='symbol'>" +
-                          this.prefix + getSymbolText(this.data) +
-                      "</span>"
-                  ); //prettier-ignore
+                    return (
+                        "<span class='symbol'>" +
+                            this.prefix + getSymbolText(this.data) +
+                        "</span>"
+                    );
+                    
               return "<span class='rawOutput'>" + this.prefix + this.data + "</span>";
             
-        };//getNonObjectData
+        }//getNonObjectData
         
         
         DataObject.prototype.createObjectData   = function() {
