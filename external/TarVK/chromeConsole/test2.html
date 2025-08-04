@@ -1,0 +1,66 @@
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
+
+
+    <style>
+    
+  #con
+    {height:200px}
+    
+    </style>
+
+
+    <div id=con>
+    
+    </div>
+
+
+
+    <script>
+
+(async()=>{
+
+console.clear();
+
+
+
+        var ext       = (await fetch('https://raw.githubusercontent.com/javascript-2020/ext-code/main/ext-loader.js')
+                          .then(res=>res.text().then(eval))
+                        );
+
+        var url       = 'javascript-2020:external:main:TarVK/chromeConsole/console.css';
+        var css       = await ext.text.github[url];
+        var style     = document.createElement('style');
+        style.textContent   = css;
+        document.head.append(style);
+
+
+        var url       = 'javascript-2020:external:main:TarVK/chromeConsole/console.js';
+        var Console   = await ext.github[url];
+
+
+        var node      = document.querySelector('#con');
+        var params    = {
+              mode            : 'r',
+              onInput         : function (text) {},
+              onRightClick    : function (obj) {},
+        };
+        var con   = new Console(params,node);
+        
+        con.log({hello:'world'});
+
+
+
+})();
+
+
+      </script>
+      
+      
+      
+      
+      
+      
+      
