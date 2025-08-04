@@ -572,7 +572,7 @@
             if (!data.style) data.style = "light";
 
             //create ace editors
-            this.outputEl = el.find(".output");
+            this.outputEl = el.querySelector(".output");
             this.inputEditor = setupEditor(
                 el.find(".input")[0],
                 data.theme,
