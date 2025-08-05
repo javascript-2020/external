@@ -188,7 +188,7 @@
         }//setupEditor
         
         
-        function createCollapseEl(clas, parClass) {
+        function createCollapseEl(clas,parClass){
           
               var element = define(`
                     <span class='js-console-collapsible js-console ${(parClass||"")}'>
@@ -242,12 +242,16 @@
                           
                           var maxScroll         = otop1-otop2+stop2;
                           
-                          var node              = element.querySelector('.header').firstElementChild;
-                          if(!node)debugger;
-                          var h3                = node.offsetHeight;
+                          var h3                = 0;
+                          var node              = element.querySelector('.header');
+                          var first             = node.firstElementChild;
+                          if(first){
+                                h3              = first.offsetHeight;
+                          }
+                          
                           var minScroll         = maxScroll-h2+h3;
                                                                                   //  MaxScroll and minScroll make sure the element's
-                                                                                  //  haeder never scrolls out of the screen
+                                                                                  //  header never scrolls out of the screen
                           var t                 = sh2-oh2-offset;
                           var max               = Math.max(minScroll,h);
                           var min               = Math.min(maxScroll,max);
@@ -269,7 +273,7 @@
                   
               return element;
             
-        }//createCollapse
+        }//createCollapseEl
   
         
         function closest(el,selector){
