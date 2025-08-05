@@ -1141,7 +1141,7 @@
                                 icon.text(number);
                                 var node    = prevPrint.element;
                                 var list    = node.querySelectorAll('.outputData');
-                                list.forEach(node=>node.style.maxWidth    = "calc(100% - "+icon.outerWidth(true)+"px)" ;
+                                list.forEach(node=>node.style.maxWidth    = "calc(100% - "+icon.outerWidth(true)+"px)");
                                     
                                 return;
                           }
