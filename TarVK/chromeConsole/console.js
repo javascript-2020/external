@@ -281,62 +281,79 @@
         }//closest
   
         
-        function specialObj(obj) {
+        function specialObj(obj){
         
-              return (
+              var result    = (
                   obj instanceof Function ||
                   obj instanceof RegExp ||
                   obj instanceof Error
               );
+              return result;
               
         }//specialObj
         
         
-        function getFileLocationElement(line, clas) {
+        function getFileLocationElement(line,clas){
           
-              var fileMatch = line.match(fileRegex);
-              var evalFileMatch = line.match(evalFileRegex);
-              var out = {};
-              if (fileMatch) {
-                  var file = fileMatch[2] || "(index)";
-                  var lineNumber = fileMatch[3] || "";
-                  if (file && lineNumber) file += ":";
-      
-                  out.el = createCollapseEl("");
-                  out.el
-                      .find(".header")
-                      .append(file.replace(/%20/g, " ") + lineNumber);
-                  out.el
-                      .children(".content")
-                      .append(
-                          "<a href='" + fileMatch[1] + "'>" +
-                              fileMatch[0].replace(/%20/g, " ") +
-                          "</a>"
-                      ); // prettier-ignore
-                  out.match = fileMatch;
-                  out.start = fileMatch.index;
-                  out.end = out.start + fileMatch[0].length;
-              } else if (evalFileMatch) {
-                  var file = evalFileMatch[3];
-                  var lineNumber = evalFileMatch[4] || "";
-                  if (file && lineNumber) file += ":";
-      
-                  out.el = createCollapseEl("");
-                  out.el
-                      .find(".header")
-                      .append(file.replace(/%20/g, " ") + lineNumber);
-                  out.el
-                      .children(".content")
-                      .append(evalFileMatch[1].replace(/%20/g, " "));
-                  out.match = evalFileMatch;
-                  out.end = evalFileMatch.index + evalFileMatch[0].length;
-                  out.start = out.end - evalFileMatch[1].length;
-              } else {
-                  return;
+              var fileMatch       = line.match(fileRegex);
+              var evalFileMatch   = line.match(evalFileRegex);
+              var out             = {};
+              
+              if(fileMatch){
+              
+                    var file          = fileMatch[2]||"(index)";
+                    var lineNumber    = fileMatch[3]||"";
+                    if(file && lineNumber){
+                          file   += ":";
+                    }
+        
+                    out.el      = createCollapseEl("");
+                    
+                    var txt     = file.replace(/%20/g," ")+lineNumber;
+                    var list    = out.el.querySelectorAll('.header');
+                    list.forEach(node=>node.append(txt));
+
+                    var html    = `
+                          <a href='${fileMatch[1]}'>
+                                ${fileMatch[0].replace(/%20/g," ")}
+                          </a>
+                    `;
+                    var a       = define(html);
+                    var list    = out.el.querySelectorAll(':scope>.content');
+                    list.forEach(node=>node.append(a));
+                    
+                    out.match   = fileMatch;
+                    out.start   = fileMatch.index;
+                    out.end     = out.start+fileMatch[0].length;
+                    
+              }else if(evalFileMatch){
+              
+                    var file          = evalFileMatch[3];
+                    var lineNumber    = evalFileMatch[4]||"";
+                    if(file&&lineNumber){
+                          file   += ":";
+                    }
+        
+                    out.el      = createCollapseEl("");
+                    var txt     = file.replace(/%20/g," ")+lineNumber;
+                    var list    = out.el.querySelectorAll('.header');
+                    list.forEach(node=>node.append(txt));
+  
+                    var txt     = evalFileMatch[1].replace(/%20/g," ");
+                    var list    = out.el.querySelectorAll(':scope>.content');
+                    list.forEach(node=>node.append(txt);
+                    
+                    out.match   = evalFileMatch;
+                    out.end     = evalFileMatch.index+evalFileMatch[0].length;
+                    out.start   = out.end-evalFileMatch[1].length;
+                  
+              }else{
+                    return;
               }
-              out.lineNumber = lineNumber;
-              out.file = file;
-              out.el.addClass(clas);
+              
+              out.lineNumber    = lineNumber;
+              out.file          = file;
+              out.el.classList.add(clas);
               return out;
             
         }//getFileLocationElement
@@ -778,18 +795,18 @@
             previewEl.append(node);
             return previewEl;
             
-        };//createObjectName
+        }//createObjectName
         
         
-        DataObject.prototype.getPath = function() {
+        DataObject.prototype.getPath    = function(){
         
-              if (this.parent) {
-                  return this.parent.getPath() + "." + this.name;
-              } else {
-                  return this.outputLineData.dataObjects.indexOf(this) + "";
+              if(this.parent){
+                    return this.parent.getPath()+"."+this.name;
+              }else{
+                    return this.outputLineData.dataObjects.indexOf(this)+"";
               }
               
-        };//getPath
+        }//getPath
     
     
     
@@ -1087,47 +1104,53 @@
         
         Console.prototype.log = function() {
           
-              var prevPrint = this.$getLastPrint();
-              //increment log counter code
+              var prevPrint   = this.$getLastPrint();
+                                                                                //  increment log counter code
               {
-                  outer: if (prevPrint && prevPrint.element.is(".log")) {
-                      if (arguments.length == prevPrint.arguments.length) {
-                          //check if arguments are identical
-                          for (var i = 0; i < arguments.length; i++) {
-                              var arg = arguments[i];
-                              var lastArg = prevPrint.arguments[i];
-                              if (arg == lastArg) continue;
-                              if (
-                                  arg instanceof Console.LineNumber &&
-                                  lastArg instanceof Console.LineNumber &&
-                                  arg.element.text() == lastArg.element.text()
-                              )
-                                  continue;
-                              break outer;
+                    outer: if(prevPrint && prevPrint.element.classList.contains('log')){
+                          if(arguments.length==prevPrint.arguments.length){
+                                                                                //  check if arguments are identical
+                                for(var i=0;i<arguments.length;i++){
+                                  
+                                      var arg       = arguments[i];
+                                      var lastArg   = prevPrint.arguments[i];
+                                      
+                                      if(arg==lastArg){
+                                            continue;
+                                      }
+                                      
+                                      if(
+                                          arg instanceof Console.LineNumber             &&
+                                          lastArg instanceof Console.LineNumber         &&
+                                          arg.element.text()==lastArg.element.text()    
+                                      ){
+                                            continue;
+                                      }
+                                      break outer;
+                                      
+                                }//for
+            
+                                                                                //  increment counter
+                                var icon    = prevPrint.element.find(".outputIcon");
+                                icon.addClass("number");
+                                var number    = (parseInt(icon.text())||1)+1;
+                                icon.text(number);
+                                var node    = prevPrint.element;
+                                var list    = node.querySelectorAll('.outputData');
+                                list.forEach(node=>node.style.maxWidth    = "calc(100% - "+icon.outerWidth(true)+"px)" ;
+                                    
+                                return;
                           }
-      
-                          //increment counter
-                          var icon = prevPrint.element.find(".outputIcon");
-                          icon.addClass("number");
-                          var number = (parseInt(icon.text()) || 1) + 1;
-                          icon.text(number);
-                          prevPrint.element
-                              .find(".outputData")
-                              .css(
-                                  "max-width",
-                                  "calc(100% - " + icon.outerWidth(true) + "px)"
-                              );
-                          return;
-                      }
-                  }
+                    }
               }
       
-              var args = Array.from(arguments);
+              var args    = Array.from(arguments);
               this.$makeStringsPlain(args);
               args.unshift("log");
       
-              var ret = this.$print.apply(this, args);
-              ret.arguments = Array.from(arguments); //append arguments for increment log counter process
+              var ret         = this.$print.apply(this,args);
+                                                                                //  append arguments for increment log counter process
+              ret.arguments   = Array.from(arguments); 
       
               this.$addDivider(ret.element);
       
@@ -1136,94 +1159,106 @@
         }//log
         
         
-        Console.prototype.error = function() {
+        Console.prototype.error   = function() {
         
-              var args = Array.from(arguments);
+              var args    = Array.from(arguments);
               this.$makeStringsPlain(args);
               args.unshift("error");
-              return this.$print.apply(this, args);
+              var result    = this.$print.apply(this,args);
+              return result;
               
         }//error
         
         
-        Console.prototype.warn = function() {
+        Console.prototype.warn    = function() {
         
-              var args = Array.from(arguments);
+              var args    = Array.from(arguments);
               this.$makeStringsPlain(args);
               args.unshift("warn");
-              return this.$print.apply(this, args);
+              var result    = this.$print.apply(this,args);
+              return result;
               
         }//warn
         
         
-        Console.prototype.info = function() {
+        Console.prototype.info    = function() {
         
-              var args = Array.from(arguments);
+              var args    = Array.from(arguments);
               this.$makeStringsPlain(args);
               args.unshift("info");
-              return this.$print.apply(this, args);
+              var result    = this.$print.apply(this,args);
+              return result;
               
         }//info
         
         
-        Console.prototype.clear = function() {
+        Console.prototype.clear   = function() {
         
-              while (this.elementLog.length > 0) {
-                  if (!this.$removeElement(0)) break;
-              }
+              while(this.elementLog.length>0){
+              
+                  if(!this.$removeElement(0)){
+                        break;
+                  }
+                  
+              }//while
               return this;
               
         }//clear
         
         
-        Console.prototype.time = function(label) {
+        Console.prototype.time    = function(label) {
         
-              var now = new Date();
-              if (!this.timers) this.timers = {};
-              if (!label || typeof label != "string") label = "default";
-              this.timers[label] = now;
+              var now   = new Date();
+              if(!this.timers){
+                    this.timers   = {};
+              }
+              if(!label || typeof label!="string"){
+                    label   = "default";
+              }
+              this.timers[label]    = now;
               
         }//time
         
         
-        Console.prototype.timeEnd = function(label) {
+        Console.prototype.timeEnd   = function(label) {
         
-              var now = new Date();
-              if (!this.timers) this.timers = {};
+              var now   = new Date();
+              if(!this.timers){
+                    this.timers   = {};
+              }
       
-              var args = Array.from(arguments);
-              if (!label || typeof label != "string") {
-                  label = "default";
-              } else {
-                  args.shift();
+              var args    = Array.from(arguments);
+              if(!label || typeof label!="string"){
+                    label   = "default";
+              }else{
+                    args.shift();
               }
               this.$makeStringsPlain(args);
       
-              if (!this.timers[label]) {
-                  args.unshift("timeEnd", new Console.PlainText(label + ": 0ms"));
-              } else {
-                  var diff = now - this.timers[label];
-                  args.unshift(
-                      "timeEnd",
-                      new Console.PlainText(label + ": " + diff + "ms")
-                  );
-                  delete this.timers[label];
+              if(!this.timers[label]){
+                    args.unshift("timeEnd",new Console.PlainText(label+": 0ms"));
+              }else{
+                    var diff    = now-this.timers[label];
+                    args.unshift("timeEnd",new Console.PlainText(label+": "+diff+"ms"));
+                    delete this.timers[label];
               }
       
-              var ret = this.$print.apply(this, args);
+              var ret   = this.$print.apply(this,args);
               this.$addDivider(ret.element);
               return ret;
             
         }//timeEnd
         
         
-        Console.prototype.$removeElement = function(element) {
+        Console.prototype.$removeElement    = function(element){
           
               if(element==null){
                                                                                     //  remove until below threshold
-                  while (this.elementLog.length > this.maxLogLength) {
+                  while(this.elementLog.length>this.maxLogLength){
                   
-                        if (!this.$removeElement(0)) break;
+                        if(!this.$removeElement(0)){
+                              break;
+                        }
                         
                   }//while
                   return;
@@ -1237,58 +1272,60 @@
               }else{
                   element   = element.closest(".js-console.outputLine,.js-console.inputLine")[0];
                   
-                  outer: for (var i = 0; i < this.elementLog.length; i++) {
+                  outer: for(var i=0;i<this.elementLog.length;i++){
                   
-                        var e = this.elementLog[i];
-                        if (e.dataObjects) {
-                            for (var j = 0; j < e.dataObjects.length; j++) {
-                                var d = e.dataObjects[j];
-                                if (d.element[0] == element) {
-                                    obj = e;
-                                    index = i;
+                        var e   = this.elementLog[i];
+                        if(e.dataObjects){
+                              for(var j=0;j<e.dataObjects.length;j++){
+                              
+                                    var d   = e.dataObjects[j];
+                                    if(d.element[0]==element){
+                                          obj     = e;
+                                          index   = i;
+                                          break outer;
+                                    }
+                                    
+                              }//for
+                        }else{
+                              if(e.element[0]==element){
+                                    obj     = e;
+                                    index   = i;
                                     break outer;
-                                }
-                            }
-                        } else {
-                            if (e.element[0] == element) {
-                                obj = e;
-                                index = i;
-                                break outer;
-                            }
+                              }
                         }
                         
                   }//for
               }
       
               if(obj){
-                  if(this.$trigger("elementRemove", obj)){
-                        return;
-                  }
-      
-                  if(obj.dataObjects){
-                                                                                    //output object
-                      var index   = this.outputs.indexOf(obj);
-                      if(index!=-1){
-                            this.outputs.splice(index, 1);
-                      }
-                      obj.element.remove();
-                  }else{
-                                                                                    //input object
-                      obj.disposed = true;
-                      obj.element.remove();
-                      obj.editor.destroy();
-                  }
-      
-                  this.elementLog.splice(index, 1);
-                  return true;
+                    if(this.$trigger("elementRemove", obj)){
+                          return;
+                    }
+        
+                    if(obj.dataObjects){
+                                                                                //output object
+                          var index   = this.outputs.indexOf(obj);
+                          if(index!=-1){
+                                this.outputs.splice(index,1);
+                          }
+                          obj.element.remove();
+                    }else{
+                                                                                //input object
+                          obj.disposed    = true;
+                          obj.element.remove();
+                          obj.editor.destroy();
+                    }
+        
+                    this.elementLog.splice(index,1);
+                    return true;
               }
             
         }//$removeElement
         
         
-        Console.prototype.$removeHistory = function(element) {
+        Console.prototype.$removeHistory    = function(element) {
         
-              if (element == null) {
+              if(element==null){
                                                                                     //  remove untill below threshold
                   while(this.inputs.length>this.maxHistoryLength){
                   
@@ -1327,7 +1364,7 @@
                     return true;
               }
               
-        };//$removeHistory
+        }//$removeHistory
         
         
         Console.prototype.$prevHistory    = function(){
@@ -1347,37 +1384,40 @@
               }
               return this;
             
-        };//$prevHistory
+        }//$prevHistory
         
         
-        Console.prototype.$nextHistory = function() {
+        Console.prototype.$nextHistory    = function() {
         
-              if (this.historyIndex == this.inputs.length)
-                  this.tempHist = this.inputEditor.getValue();
+              if(this.historyIndex==this.inputs.length){
+                    this.tempHist   = this.inputEditor.getValue();
+              }
       
-              this.historyIndex = Math.min(this.historyIndex + 1, this.inputs.length);
+              this.historyIndex   = Math.min(this.historyIndex+1,this.inputs.length);
       
-              if (this.historyIndex == this.inputs.length) {
-                  this.inputEditor.setValue(this.tempHist, 1);
-              } else {
-                  var h = this.inputs[this.historyIndex];
-                  if (h && h.text) this.inputEditor.setValue(h.text, 1);
+              if(this.historyIndex==this.inputs.length){
+                    this.inputEditor.setValue(this.tempHist, 1);
+              }else{
+                    var h   = this.inputs[this.historyIndex];
+                    if(h&&h.text){
+                          this.inputEditor.setValue(h.text,1);
+                    }
               }
               return this;
               
-        };//$nextHistory
+        }//$nextHistory
         
         
-        Console.prototype.$getLastPrint = function() {
+        Console.prototype.$getLastPrint   = function() {
         
-              return this.elementLog[this.elementLog.length - 1];
+              return this.elementLog[this.elementLog.length-1];
               
-        };//$getLastPrint
+        }//$getLastPrint
         
         
-        Console.prototype.$makeStringsPlain = function(args) {
+        Console.prototype.$makeStringsPlain   = function(args) {
         
-              for (var i = 0; i < args.length; i++){
+              for(var i=0;i<args.length;i++){
               
                     if(typeof args[i]=="string" && args[i].length>0){
                           args[i]   = new Console.PlainText(args[i]);
@@ -1385,7 +1425,7 @@
                         
               }//for
               
-        };//$makeStringsPlain
+        }//$makeStringsPlain
         
         
         Console.prototype.$addDivider   = function(element){
