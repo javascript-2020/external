@@ -768,29 +768,30 @@
                         var key   = keys[i];
         
                         var obj;
-                        if(this.getterObj && key!="__proto__"){
+                        if(this.getterObj && key!='__proto__'){
                               obj   = this.getterObj[key];
                         }else{
                               obj   = this.data[key];
                         }
         
                         var dObj    = new DataObject(obj);
-                        if(key=="__proto__"){
-                              dObj.getterObj    = this.getterObj || this.data;
+                        if(key=='__proto__'){
+                              dObj.getterObj    = this.getterObj||this.data;
                         }
         
                         if(i>0){
-                              previewEl.append(comma+" ");
+                              previewEl.append(comma+' ');
                         }
                         
-                        var t   = isArray && key==i ? "" : htmlEscape(key)+colon+" ";
+                        var s   = htmlEscape(key)+colon+' ';
+                        var t   = isArray && key==i ? '' : s;
                         var r   = dObj.getPreviewElement(t,depth+1);
                         previewEl.append(r);
                       
                   }//for
                   
                   if(i<keys.length){
-                        previewEl.append(comma+" "+ddd);
+                        previewEl.append(comma+' '+ddd);
                   }
                   
             }else{
@@ -800,6 +801,7 @@
             var html    = isArray ? rSquareBrack : rBrace;
             var node    = define(html);
             previewEl.append(node);
+            
             return previewEl;
             
         }//createObjectName
