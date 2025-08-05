@@ -758,10 +758,14 @@
             if(depth<1){
                 
                   var txt   = previewEl.textContent;
-                  var n     = keys.length && txt.length<maxLength; 
+                  var n     = keys.length; 
                   
                   for(var i=0;i<n;i++){
                   
+                        if(txt.length<maxLength){
+                              break;
+                        }
+                        
                         var key   = keys[i];
         
                         var obj;
