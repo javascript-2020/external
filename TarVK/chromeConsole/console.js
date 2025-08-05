@@ -762,7 +762,7 @@
                   
                   for(var i=0;i<n;i++){
                   
-                        if(txt.length<maxLength){
+                        if(txt.length>=maxLength){
                               break;
                         }
                         
