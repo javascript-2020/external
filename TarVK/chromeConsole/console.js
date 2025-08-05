@@ -345,7 +345,7 @@
   
                     var txt     = evalFileMatch[1].replace(/%20/g," ");
                     var list    = out.el.querySelectorAll(':scope>.content');
-                    list.forEach(node=>node.append(txt);
+                    list.forEach(node=>node.append(txt));
                     
                     out.match   = evalFileMatch;
                     out.end     = evalFileMatch.index+evalFileMatch[0].length;
