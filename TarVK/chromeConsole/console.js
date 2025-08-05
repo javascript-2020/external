@@ -1037,6 +1037,10 @@
         
         function define(html){
         
+              if(typeof html!='string'){
+                    return html;
+              }
+              
               var host          = document.createElement('div');
               host.innerHTML    = html;
               var node          = host.firstElementChild;
