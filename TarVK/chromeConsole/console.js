@@ -249,7 +249,7 @@
                                 h3              = first.offsetHeight;
                           }
                           
-                          var minScroll         = maxScroll-h2+h3;
+                          var minScroll         = maxScroll-sh2+h3;
                                                                                   //  MaxScroll and minScroll make sure the element's
                                                                                   //  header never scrolls out of the screen
                           var t                 = sh2-oh2-offset;
