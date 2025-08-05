@@ -757,11 +757,10 @@
     
             if(depth<1){
                 
-                  var txt   = previewEl.textContent;
-                  var n     = keys.length; 
-                  
+                  var n     = keys.length;                   
                   for(var i=0;i<n;i++){
                   
+                        var txt   = previewEl.textContent;
                         if(txt.length>=maxLength){
                               break;
                         }
