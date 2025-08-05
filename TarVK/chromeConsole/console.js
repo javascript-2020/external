@@ -190,16 +190,16 @@
         
         function createCollapseEl(clas, parClass) {
           
-              var element = define(
-                  "<span class='js-console-collapsible js-console " + (parClass || "") +"'>"                          +
-                      "<div class='js-console-collapsible header-outer js-console'>"                                  +
-                          "<span class='js-console header-arrow'></span>"                                             +
-                          "<div class='js-console-collapsible header js-console " + clas +"'></div>"                  +
-                      "</div>"                                                                                        +
-                      "<br>"                                                                                          +
-                      "<div class='js-console-collapsible content js-console " +clas +"' style=display:none></div>"   +
-                  "</span>"
-              );
+              var element = define(`
+                    <span class='js-console-collapsible js-console ${(parClass||"")}'>
+                          <div class='js-console-collapsible header-outer js-console'>
+                                <span class='js-console header-arrow'></span>
+                                <div class='js-console-collapsible header js-console ${clas}'></div>
+                          </div>
+                          <br>
+                          <div class='js-console-collapsible content js-console ${clas}' style=display:none></div>
+                    </span>
+              `);
               
               var node    = element.querySelector(".header-outer").firstElementChild;
               
@@ -219,12 +219,16 @@
                               element.classList.add('open');
                               var node              = element.querySelector('.content');
                               var first             = node.firstElementChild;
-                              first.style.display   = '';
+                              if(first){
+                                    first.style.display   = '';
+                              }
                           }else{
                               element.classList.remove('open');
                               var node              = element.querySelector('.content');
                               var first             = node.firstElementChild;
-                              first.style.display   = 'none';
+                              if(first){
+                                    first.style.display   = 'none';
+                              }
                           }
       
                                                                                   //  Restore the current offset
@@ -266,7 +270,7 @@
         }//createCollapse
   
         
-        function closest(el, selector) {
+        function closest(el,selector){
         
               while(el && el.nodeType===1){
               
