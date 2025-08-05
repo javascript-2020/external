@@ -201,9 +201,10 @@
                     </span>
               `);
               
-              var node    = element.querySelector(".header-outer").firstElementChild;
+              var node    = element.querySelector('.header-outer');
+              var first   = node.firstElementChild;
               
-              node.onmouseup    = function(e){
+              first.onmouseup    = function(e){
               
                       if(e.button==0){
                                                                                   // Store the current scroll offset
@@ -215,20 +216,19 @@
                                                                                   //  Expand or collapse
                           e.preventDefault();
                           
+                          var display;
                           if(!element.classList.contains('open')){
-                              element.classList.add('open');
-                              var node              = element.querySelector('.content');
-                              var first             = node.firstElementChild;
-                              if(first){
-                                    first.style.display   = '';
-                              }
+                                element.classList.add('open');
+                                display   = '';
                           }else{
-                              element.classList.remove('open');
-                              var node              = element.querySelector('.content');
-                              var first             = node.firstElementChild;
-                              if(first){
-                                    first.style.display   = 'none';
-                              }
+                                element.classList.remove('open');
+                                display   = 'none';
+                          }
+                          
+                          var node              = element.querySelector('.content');
+                          var first             = node.firstElementChild;
+                          if(first){
+                                first.style.display   = display;
                           }
       
                                                                                   //  Restore the current offset
@@ -262,12 +262,12 @@
                       
                   }//onmouseup
                   
-                  node.onmousedown    = function(e) {
+                  first.onmousedown    = function(e) {
                                                                                   //  Remove double click text selection:
                                                                                   //  https://stackoverflow.com/a/43321596
-                      if(e.button==0 && e.detail>1){
-                            e.preventDefault();
-                      }
+                        if(e.button==0 && e.detail>1){
+                              e.preventDefault();
+                        }
                       
                   }//onmousedown
                   
@@ -278,7 +278,7 @@
         
         function closest(el,selector){
         
-              while(el && el.nodeType===1){
+              while(el){
               
                     if(el.matches(selector)){
                           return el;
@@ -487,12 +487,9 @@
                           }
                           
                           var node    = this.element.querySelector(".header");
-                          var first   = node.firstElementChild;
-                          if(first){
-                                first.replaceChildren();
-                                if(typeof this.previewElement=='string')debugger;
-                                first.append(this.previewElement);
-                          }
+                          node.replaceChildren();
+                          node.append(this.previewElement);
+                          
                     }
                     
                     if(depth==0){
@@ -500,8 +497,7 @@
                     }else if(newElement){
                     
                           var node        = this.element.querySelector(".header-outer");
-                          var first       = node.firstElementChild;
-                          first.onclick   = function(e) {
+                          node.onclick    = function(e) {
                               
                                 var opens   = This.element.classList.contains('open');
                                 if(opens){
@@ -559,11 +555,11 @@
               
               switch(true){
               
-                case (typeof this.data=="number")   :
+                case (typeof this.data=='number')   :
                 
                                                       html    = `
                                                           <span class='numberOutput'>
-                                                              ${this.prefix+getNumericText(this.data,"value")}
+                                                              ${this.prefix+getNumericText(this.data,'value')}
                                                           </span>
                                                       `;
                                                       
@@ -573,7 +569,7 @@
                 
                                                       var text    = this.data;
                                                       if(preview && text.length>maxStringPreviewLength){
-                                                            text    = text.substring(0,maxStringPreviewLength-3)+"...";
+                                                            text    = text.substring(0,maxStringPreviewLength-3)+'...';
                                                       }
                                                       html    = `
                                                           <span class='stringOutput'>
@@ -592,11 +588,11 @@
                                                       
                                                       break;
                                                       
-                case (typeof this.data=="boolean")  :
+                case (typeof this.data=='boolean')  :
               
                                                       html    = `
                                                           <span class='undefinedOutput'>
-                                                              ${this.prefix+getBooleanText(this.data,"value")}
+                                                              ${this.prefix+getBooleanText(this.data,'value')}
                                                           </span>
                                                       `;
                                                       
@@ -616,27 +612,7 @@
               
                                                       html    = `
                                                           <span class='regexOutput'>
-                                                              ${this.prefix+getRegexText(this.data,"value")}
-                                                          </span>
-                                                      `;
-                                                      
-                                                      break;
-                                                      
-                case (this.data === null)           :
-              
-                                                      html    = `
-                                                          <span class='nullOutput'>
-                                                              ${this.prefix+nul}
-                                                          </span>
-                                                      `;
-                                                      
-                                                      break;
-                                                      
-                case (this.data === undefined)      :
-              
-                                                      html    = `
-                                                          <span class='undefinedOutput'>
-                                                              ${this.prefix+undef}
+                                                              ${this.prefix+getRegexText(this.data,'value')}
                                                           </span>
                                                       `;
                                                       
@@ -647,6 +623,26 @@
                                                       html    = `
                                                           <span class='errorOutput'>
                                                               ${this.prefix+getErrorText(this.data)}
+                                                          </span>
+                                                      `;
+                                                      
+                                                      break;
+                                                      
+                case (this.data===null)             :
+              
+                                                      html    = `
+                                                          <span class='nullOutput'>
+                                                              ${this.prefix+nul}
+                                                          </span>
+                                                      `;
+                                                      
+                                                      break;
+                                                      
+                case (this.data===undefined)        :
+              
+                                                      html    = `
+                                                          <span class='undefinedOutput'>
+                                                              ${this.prefix+undef}
                                                           </span>
                                                       `;
                                                       
