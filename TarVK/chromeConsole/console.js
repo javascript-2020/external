@@ -241,7 +241,9 @@
                           var sh2               = consoleEl.scrollHeight;
                           
                           var maxScroll         = otop1-otop2+stop2;
+                          
                           var node              = element.querySelector('.header').firstElementChild;
+                          if(!node)debugger;
                           var h3                = node.offsetHeight;
                           var minScroll         = maxScroll-h2+h3;
                                                                                   //  MaxScroll and minScroll make sure the element's
@@ -968,12 +970,12 @@
         }//console
         
         
-        Console.prototype.$handleInput = function(force) {
+        Console.prototype.$handleInput    = function(force){
         
               var text      = this.inputEditor.getValue();
               var elData    = this.input(text);
-              if(!this.$trigger("input",text)||force){
-                    this.inputEditor.setValue("",-1);
+              if(!this.$trigger('input',text)||force){
+                    this.inputEditor.setValue('',-1);
               }else{
                     this.$removeElement(elData.element);
               }
@@ -981,11 +983,13 @@
         }//$handleInput
         
         
-        Console.prototype.input = function(text) {
+        Console.prototype.input   = function(text){
         
-              var el    = $(inputCodeTemplate);
+              var el    = define(inputCodeTemplate);
               this.outputEl.append(el);
-              var editor    = setupEditor(el.find(".inputCode")[0],this.data.theme,this.data.mode);
+              
+              var node      = el.querySelector('.inputCode');
+              var editor    = setupEditor(node,this.data.theme,this.data.mode);
               editor.setReadOnly(true);
               editor.renderer.$cursorLayer.element.style.display    = "none";
               editor.setValue(text,-1);
@@ -994,17 +998,18 @@
                                                                                     //  in the history element #5"
               var ThisConsole   = this;
               
-              el.find("*").click(function(e) {
+              var list    = el.querySelectorAll('*');
+              list.forEach(node=>node.onclick   = e=>{
               
-                    if(editor.getSelectedText()==""){
+                    if(editor.getSelectedText()==''){
                           ThisConsole.inputEditor.focus();
                     }
                     
               });
-      
-              var dataObj = {
+              
+              var dataObj   = {
                     text      : text,
-                    type      : "input",
+                    type      : 'input',
                     element   : el,
                     editor    : editor,
                     id        : this.messageID++,
