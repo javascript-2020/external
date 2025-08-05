@@ -1046,6 +1046,7 @@
       
               var objects       = Array.from(arguments);
               objects.shift();
+              
               var dataObj   = {
                     objects   : objects,
                     type      : clas,
@@ -1055,6 +1056,7 @@
               };
       
               var dataObjects   = [];
+              
               for(var i=1;i<arguments.length;i++){
               
                     var arg = arguments[i];
@@ -1067,14 +1069,17 @@
                     }else{
                           var dataObject    = new DataObject(arg,dataObj);
                           dataObjects.push(dataObject);
-                          out.append(dataObject.getElement());
+                          var node          = dataObject.getElement();
+                          out.append(node);
                     }
                     
               }//for
       
               el.classList.add(clas);
               if(this.showIcons){
-                    el.classList.add("ace_gutter-cell ace_" + (clas == "warn" ? "warning" : clas));
+                    var str   = (clas=='warn'?'warning':clas);
+                    var txt   = 'ace_gutter-cell ace_'+str;
+                    el.classList.add(txt);
               }
       
               this.outputEl.append(el);
