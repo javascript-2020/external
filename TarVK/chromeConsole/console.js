@@ -1343,11 +1343,11 @@
       
               var obj;
               var index;
-              if(typeof element=="number"){
+              if(typeof element=='number'){
                   obj     = this.elementLog[element];
                   index   = element;
               }else{
-                  element   = element.closest(".js-console.outputLine,.js-console.inputLine")[0];
+                  element   = element.closest('.js-console.outputLine,.js-console.inputLine');
                   
                   outer: for(var i=0;i<this.elementLog.length;i++){
                   
@@ -1375,7 +1375,7 @@
               }
       
               if(obj){
-                    if(this.$trigger("elementRemove", obj)){
+                    if(this.$trigger('elementRemove',obj)){
                           return;
                     }
         
@@ -1417,11 +1417,11 @@
               var obj;
               var index;
               
-              if(typeof element=="number"){
+              if(typeof element=='number'){
                   index   = element;
                   obj     = this.inputs[element];
               }else{
-                  element   = element.closest(".js-console.inputLine")[0];
+                  element   = element.closest('.js-console.inputLine');
                   for(var i=0;i<this.inputs.length;i++){
                   
                       var e   = this.inputs[i];
