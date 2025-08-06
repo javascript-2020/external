@@ -188,6 +188,9 @@
               
         }//setupEditor
         
+
+
+
         
         function createCollapseEl(clas,parClass){
           
@@ -224,15 +227,17 @@
                                 element.classList.remove('open');
                                 display   = 'none';
                           }
+
                           
                           var node              = element.querySelector('.content');
-                          var first             = node.firstElementChild;
-                          if(first){
-                                first.style.display   = display;
-                          }
+                          node.style.display    = display;
+                          
+                          //var list              = element.querySelectorAll('.content');
+                          //list.forEach(node=>node.style.display=display);
       
                                                                                   //  Restore the current offset
                                                                                   //  (Relative to the bottom of the element)
+                                                                                  
                           var otop1             = element.offsetTop;
                           
                           var otop2             = consoleEl.offsetTop;
@@ -242,12 +247,8 @@
                           
                           var maxScroll         = otop1-otop2+stop2;
                           
-                          var h3                = 0;
                           var node              = element.querySelector('.header');
-                          var first             = node.firstElementChild;
-                          if(first){
-                                h3              = first.offsetHeight;
-                          }
+                          var h3                = first.offsetHeight;
                           
                           var minScroll         = maxScroll-sh2+h3;
                                                                                   //  MaxScroll and minScroll make sure the element's
@@ -274,6 +275,9 @@
               return element;
             
         }//createCollapseEl
+
+
+
   
         
         function closest(el,selector){
@@ -399,6 +403,9 @@
               
         }//getPreviewElement
         
+
+
+
         
         DataObject.prototype.getElement   = function(prefix,depth){debugger;
         
@@ -545,6 +552,8 @@
                           this.element = r;
                     }
               }
+
+
       
               if(!hadElement && this.element){
                   this.element.data         = this;
@@ -558,11 +567,16 @@
                       
                   }//onmouseup
               }
+
       
               return this.element;
             
         }//getElement
         
+
+
+
+
         
         DataObject.prototype.getNonObjectData   = function(preview) {
         
