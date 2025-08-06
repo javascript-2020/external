@@ -3,13 +3,25 @@
 
 (function() {
 
-        
+  obj   = {};
+
+  
         var df              = false;
         
+
+
+
+        obj.create    = function(root){
         
         
+        }//create
+
         
-        var Range           = ace.require("ace/range").Range;
+  //:
+  
+  
+        
+        var Range           = ace.require('ace/range').Range;
         var log             = console.log.bind(console);
                                                                                 // extracts the line number at the end of a file in an error log
         var fileRegex       = /((?:https?:\/\/|www\.)(?:(?:[^\.\:])*(?:\.|\:))(?:[^:\/]+\/)*([^:\/]+)*)(?::(\d*))?(?::(\d*))?/; 
@@ -17,12 +29,12 @@
         
         var htmlEscape      = function(text,format){
         
-              if(typeof text=="symbol"){
+              if(typeof text=='symbol'){
                     text = text.toString();
               }
-              text    = text.replace(/&/g,"&amp;");
-              text    = text.replace(/</g,"&lt;");
-              text    = text.replace(/>/g,"&gt;");
+              text    = text.replace(/&/g,'&amp;');
+              text    = text.replace(/</g,'&lt;');
+              text    = text.replace(/>/g,'&gt;');
               
               if(format===false){
                     return text;
@@ -1687,13 +1699,15 @@
         
         
 
+
+
     
         //$.fn.console = Console;
+
+
+
     
-        return Console;
-
-
-
+  return obj;
     
 })();
 
