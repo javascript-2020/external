@@ -27,7 +27,7 @@
               }
               
               text    = text.replace(/^(\s(?!\n))+/gm,m=>("<span style='display:inline-block;margin-left:"+m.length*10+"px'></span>"));
-              text    = text.replace(/\n/g,"<br>");
+              text    = text.replace(/\n/g,'<br>');
               text    = text.replace(/\t/g,"<span style='display:inline-block;margin-left:20px'></span>");
               return text;
               
