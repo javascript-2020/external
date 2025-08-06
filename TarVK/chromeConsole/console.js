@@ -12,7 +12,15 @@
 
 
         obj.create    = function(root){
-        
+
+              var params    = {
+                    mode            : 'r',
+                    onInput         : function (text) {},
+                    onRightClick    : function (obj) {},
+              };              
+              
+              var cons      = new Console(params,root);
+              return cons;
         
         }//create
 
