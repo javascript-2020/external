@@ -778,7 +778,11 @@
             var maxLength   = maxObjectPreviewLength;
             var previewEl   = define('<span></span>');
                                                                                 if(typeof this.prefix=='string')debugger;
-            previewEl.append(this.prefix);
+            var node    = this.prefix;
+            if(typeof node=='string'){
+                  node    = define(node);
+            }
+            previewEl.append(node);
             
             if(isArray){
                   previewEl.append('('+keys.length+') ');
