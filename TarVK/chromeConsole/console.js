@@ -17,7 +17,7 @@
   
         obj.initmod   = function(params){
         
-              store   = param.store;
+              store   = params.store;
 
               
         }//initmod
