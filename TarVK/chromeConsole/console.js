@@ -6,7 +6,8 @@
   
         var Range           = ace.require("ace/range").Range;
         var log             = console.log.bind(console);
-        var fileRegex       = /((?:https?:\/\/|www\.)(?:(?:[^\.\:])*(?:\.|\:))(?:[^:\/]+\/)*([^:\/]+)*)(?::(\d*))?(?::(\d*))?/; // extracts the line number at the end of a file in an error log
+                                                                                // extracts the line number at the end of a file in an error log
+        var fileRegex       = /((?:https?:\/\/|www\.)(?:(?:[^\.\:])*(?:\.|\:))(?:[^:\/]+\/)*([^:\/]+)*)(?::(\d*))?(?::(\d*))?/; 
         var evalFileRegex   = /\((((?:[^):\/]+\/)*([^):\/]+)*)(?::(\d*))?(?::(\d*))?)/;
         
         var htmlEscape      = function(text,format){
@@ -25,9 +26,9 @@
                     return text.replace(/\n/g,'&crarr;');
               }
               
-              text    = text.replace(/^(\s(?!\n))+/gm,m=>("<span style=display:inline-block;margin-left:"+m.length*10+"px></span>"));
+              text    = text.replace(/^(\s(?!\n))+/gm,m=>("<span style='display:inline-block;margin-left:"+m.length*10+"px'></span>"));
               text    = text.replace(/\n/g,"<br>");
-              text    = text.replace(/\t/g,"<span style=display:inline-block;margin-left:20px></span>");
+              text    = text.replace(/\t/g,"<span style='display:inline-block;margin-left:20px'></span>");
               return text;
               
         }//htmlescape
