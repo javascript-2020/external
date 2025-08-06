@@ -3,7 +3,12 @@
 
 (function() {
 
-  
+        
+        var df              = false;
+        
+        
+        
+        
         var Range           = ace.require("ace/range").Range;
         var log             = console.log.bind(console);
                                                                                 // extracts the line number at the end of a file in an error log
@@ -170,8 +175,8 @@
         function setupEditor(el, style, mode) {
         
               var editor    = ace.edit(el);
-              editor.setTheme("ace/theme/"+style);
-              editor.getSession().setMode("ace/mode/"+mode);
+              editor.setTheme('ace/theme/'+style);
+              editor.getSession().setMode('ace/mode/'+mode);
               editor.getSession().setUseWrapMode(true);
               editor.getSession().setUseSoftTabs(true);
               editor.setShowPrintMargin(false);
@@ -180,7 +185,7 @@
               });
               editor.$blockScrolling    = Infinity;
               editor.renderer.setShowGutter(false);
-              editor.on("blur",function(){
+              editor.on('blur',function(){
               
                     editor.session.selection.clearSelection();
                     
@@ -202,7 +207,7 @@
                                 <div class='js-console-collapsible header js-console ${clas}'></div>
                           </div>
                           <br>
-                          <div class='js-console-collapsible content js-console ${clas}' style=display:none></div>
+                          <div class='js-console-collapsible content js-console ${clas}' style='display:none'></div>
                     </span>
               `);
               
@@ -232,13 +237,8 @@
                           
                           var node              = element.querySelector('.content');
                           node.style.display    = display;
-                          
-                          //var list              = element.querySelectorAll('.content');
-                          //list.forEach(node=>node.style.display=display);
-      
                                                                                   //  Restore the current offset
                                                                                   //  (Relative to the bottom of the element)
-                                                                                  
                           var otop1             = element.offsetTop;
                           
                           var otop2             = consoleEl.offsetTop;
@@ -408,7 +408,7 @@
 
 
         
-        DataObject.prototype.getElement   = function(prefix,depth){debugger;
+        DataObject.prototype.getElement   = function(prefix,depth){
         
               var This          = this;
               var hadElement    = this.element;
