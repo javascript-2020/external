@@ -784,6 +784,7 @@
                   for(var i=0;i<n;i++){
                   
                         var txt   = previewEl.textContent;
+                        txt       = txt.replace(/\s+/g,'');
                         if(txt.length>=maxLength){
                               break;
                         }
