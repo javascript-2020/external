@@ -248,7 +248,7 @@
                           var maxScroll         = otop1-otop2+stop2;
                           
                           var node              = element.querySelector('.header');
-                          var h3                = first.offsetHeight;
+                          var h3                = node.offsetHeight;
                           
                           var minScroll         = maxScroll-sh2+h3;
                                                                                   //  MaxScroll and minScroll make sure the element's
