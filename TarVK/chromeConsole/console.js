@@ -1488,7 +1488,7 @@
         }//$prevHistory
         
         
-        Console.prototype.$nextHistory    = function() {
+        Console.prototype.$nextHistory    = function(){
         
               if(this.historyIndex==this.inputs.length){
                     this.tempHist   = this.inputEditor.getValue();
@@ -1509,9 +1509,10 @@
         }//$nextHistory
         
         
-        Console.prototype.$getLastPrint   = function() {
+        Console.prototype.$getLastPrint   = function(){
         
-              return this.elementLog[this.elementLog.length-1];
+              var result    = this.elementLog[this.elementLog.length-1];
+              return result;
               
         }//$getLastPrint
         
@@ -1546,34 +1547,31 @@
         }//$addDivider
         
         
-                                                                                    // console events
+                                                                                // console events
+                                                                                
         Console.prototype.onInput   = function(func,remove){
-        
-        debugger;
+                                                                                debugger;
               this.on('input',func,remove);
               
         }//onInput
         
         
         Console.prototype.onElementRemove   = function(func,remove){
-        
-        debugger;
+                                                                                debugger;
               this.on('elementRemove',func,remove);
               
         }//onElementRemove
         
         
         Console.prototype.onRightClick    = function(func, remove) {
-        
-        debugger;
+                                                                                debugger;
               this.on('rightClick',func,remove);
               
         }//onRightClick
         
         
         Console.prototype.onTerminate   = function(func,remove){
-        
-        debugger;
+                                                                                debugger;
               this.on('terminate',func,remove);
               
         }//onTerminate
