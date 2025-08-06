@@ -1419,7 +1419,7 @@
               
               if(typeof element=='number'){
                   index   = element;
-                  obj     = this.inputs[element];
+                  obj     = this.inputs[index];
               }else{
                   element   = element.closest('.js-console.inputLine');
                   for(var i=0;i<this.inputs.length;i++){
@@ -1447,7 +1447,7 @@
         Console.prototype.$prevHistory    = function(){
         
               if(this.historyIndex==this.inputs.length){
-                    this.tempHist = this.inputEditor.getValue();
+                    this.tempHist   = this.inputEditor.getValue();
               }
       
               this.historyIndex   = Math.max(this.historyIndex-1,0);
@@ -1456,8 +1456,9 @@
               if(h&&h.text){
                     this.inputEditor.setValue(h.text,1);
                                                                                       //  select last column of first line
-                    var fl = h.text.split("\n")[0].length; 
-                    this.inputEditor.selection.setRange(new Range(0,fl,0,fl));
+                    var fl    = h.text.split("\n")[0].length; 
+                    var r     = new Range(0,fl,0,fl);
+                    this.inputEditor.selection.setRange(r);
               }
               return this;
             
@@ -1473,7 +1474,7 @@
               this.historyIndex   = Math.min(this.historyIndex+1,this.inputs.length);
       
               if(this.historyIndex==this.inputs.length){
-                    this.inputEditor.setValue(this.tempHist, 1);
+                    this.inputEditor.setValue(this.tempHist,1);
               }else{
                     var h   = this.inputs[this.historyIndex];
                     if(h&&h.text){
@@ -1496,7 +1497,7 @@
         
               for(var i=0;i<args.length;i++){
               
-                    if(typeof args[i]=="string" && args[i].length>0){
+                    if(typeof args[i]=='string' && args[i].length>0){
                           args[i]   = new Console.PlainText(args[i]);
                     }
                         
@@ -1510,11 +1511,13 @@
               var data    = this.elementLog[this.elementLog.length-2];
               
               if(data && data.element.classList.contains('inputLine')){
-                    var node    = define("<div class='"+dividerClass+"'></div>");
+                    var html    = `<div class='${dividerClass}'></div>`;
+                    var node    = define(html);
                     element.insertBefore(node,element.firstChild);
               }
               
-              var node    = define("<div class='"+dividerClass+"'></div>");
+              var html    = `<div class='${dividerClass}'></div>`;
+              var node    = define(html);
               element.append(node);
               
         }//$addDivider
@@ -1523,13 +1526,15 @@
                                                                                     // console events
         Console.prototype.onInput   = function(func,remove){
         
-              this.on("input",func,remove);
+        debugger;
+              this.on('input',func,remove);
               
         }//onInput
         
         
         Console.prototype.onElementRemove   = function(func,remove){
         
+        debugger;
               this.on('elementRemove',func,remove);
               
         }//onElementRemove
@@ -1537,14 +1542,16 @@
         
         Console.prototype.onRightClick    = function(func, remove) {
         
-              this.on("rightClick", func, remove);
+        debugger;
+              this.on('rightClick',func,remove);
               
         }//onRightClick
         
         
         Console.prototype.onTerminate   = function(func,remove){
         
-              this.on("terminate",func,remove);
+        debugger;
+              this.on('terminate',func,remove);
               
         }//onTerminate
         
@@ -1569,6 +1576,7 @@
         Console.prototype.$trigger    = function(event){
         
               var listeners   = this.listeners[event];
+              
               if(listeners){
                   var args    = Array.from(arguments);
                   args.shift();
@@ -1587,6 +1595,7 @@
       
                   return out;
               }
+              
               return false;
               
         }//$trigger
@@ -1597,30 +1606,34 @@
                                                                                     
         Console.LineNumber    = function(file,lineNumber,trace){
         
-              if(typeof file=="number"){
+              if(typeof file=='number'){
                                                                                     //  figure out the file from stack trace
-                    var nodes   = new Error("").stack.split("\n");
+                    var nodes   = new Error('').stack.split('\n');
                     nodes.shift();
-                    var node    = nodes[Math.min(nodes.length-1,file)];
+                    var min     = Math.min(nodes.length-1,file);
+                    var node    = nodes[min];
                     trace       = node;
-                    file        = "";
+                    file        = '';
               }
       
-              file          = htmlEscape(file || "");
-              lineNumber    = lineNumber!=null ? lineNumber : "";
+              file          = htmlEscape(file||'');
+              lineNumber    = lineNumber!=null ? lineNumber : '';
       
               if(trace){
-                    var fileData    = getFileLocationElement(trace,"lineNumber");
+                    var fileData    = getFileLocationElement(trace,'lineNumber');
                     if(fileData){
                           this.element      = fileData.el;
                           this.file         = fileData.file;
                           this.lineNumber   = fileData.lineNumber;
                     }else{
-                          this.element      = define("<span class=lineNumber>&lt;anonymous&gt;</span>");
+                          var html          = `<span class=lineNumber>&lt;anonymous&gt;</span>`;
+                          this.element      = define(html);
                     }
               }else{
-                    var spacer      = file!="" && lineNumber!="" ? ":" : "";
-                    this.element    = define("<span class=lineNumber>"+file+spacer+lineNumber+"</span>");
+                    var spacer      = (file!="" && lineNumber!="") ? ":" : "";
+                    var str         = file+spacer+lineNumber;
+                    var html        = `<span class=lineNumber>${str}</span>`;
+                    this.element    = define(html);
               }
       
               this.file         = file;
@@ -1635,7 +1648,9 @@
         Console.PlainText   = function(text){
         
             this.text       = text;
-            this.element    = define("<span class='js-console plainText'>" +htmlEscape(text, true) +"</span>");
+            var str         = htmlEscape(text,true);
+            var html        = `<span class='js-console plainText'>${str}</span>`;
+            this.element    = define(html);
             
         }//PlainText
         
