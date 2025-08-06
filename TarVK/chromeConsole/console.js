@@ -1199,13 +1199,20 @@
                                 }//for
             
                                                                                 //  increment counter
-                                var icon    = prevPrint.element.find(".outputIcon");
-                                icon.addClass("number");
-                                var number    = (parseInt(icon.text())||1)+1;
-                                icon.text(number);
+                                var icon    = prevPrint.element.find('.outputIcon');
+                                icon.addClass('number');
+                                var n         = parseInt(icon.text());
+                                var number    = (n||1)+1;
+                                icon.textContent    = number;
                                 var node    = prevPrint.element;
                                 var list    = node.querySelectorAll('.outputData');
-                                list.forEach(node=>node.style.maxWidth    = "calc(100% - "+icon.outerWidth(true)+"px)");
+                                list.forEach(node=>{
+                                                                                //  should include margins
+                                      var w                 = icon.offsetWidth;
+                                      var max               = `calc(100% - ${w}px)`;
+                                      node.style.maxWidth   = max;
+                                      
+                                });
                                     
                                 return;
                           }
@@ -1231,7 +1238,7 @@
         
               var args    = Array.from(arguments);
               this.$makeStringsPlain(args);
-              args.unshift("error");
+              args.unshift('error');
               var result    = this.$print.apply(this,args);
               return result;
               
@@ -1242,7 +1249,7 @@
         
               var args    = Array.from(arguments);
               this.$makeStringsPlain(args);
-              args.unshift("warn");
+              args.unshift('warn');
               var result    = this.$print.apply(this,args);
               return result;
               
@@ -1253,7 +1260,7 @@
         
               var args    = Array.from(arguments);
               this.$makeStringsPlain(args);
-              args.unshift("info");
+              args.unshift('info');
               var result    = this.$print.apply(this,args);
               return result;
               
@@ -1280,8 +1287,8 @@
               if(!this.timers){
                     this.timers   = {};
               }
-              if(!label || typeof label!="string"){
-                    label   = "default";
+              if(!label || typeof label!='string'){
+                    label   = 'default';
               }
               this.timers[label]    = now;
               
@@ -1296,18 +1303,20 @@
               }
       
               var args    = Array.from(arguments);
-              if(!label || typeof label!="string"){
-                    label   = "default";
+              if(!label || typeof label!='string'){
+                    label   = 'default';
               }else{
                     args.shift();
               }
               this.$makeStringsPlain(args);
       
               if(!this.timers[label]){
-                    args.unshift("timeEnd",new Console.PlainText(label+": 0ms"));
+                    var t   = new Console.PlainText(label+': 0ms');
+                    args.unshift('timeEnd',t);
               }else{
                     var diff    = now-this.timers[label];
-                    args.unshift("timeEnd",new Console.PlainText(label+": "+diff+"ms"));
+                    var t       = new Console.PlainText(label+': '+diff+'ms');
+                    args.unshift('timeEnd',t);
                     delete this.timers[label];
               }
       
