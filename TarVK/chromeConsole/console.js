@@ -521,6 +521,7 @@
                                       if(!specialObj(This.data)){
                                       
                                             var node          = This.element.querySelector('.header');
+                                                                                if(typeof This.prefix!='string')debugger;
                                             node.innerHTML    = This.prefix;
                                       }else{
                                             var list    = This.element.querySelectorAll(':scope>.content');
@@ -528,7 +529,7 @@
                                             
                                             if(!specialObj(This.data)){
                                                   var node    = This.element.querySelector('.header');
-                                                  if(typeof This.previewElement=='string')debugger;
+                                                                                if(typeof This.previewElement=='string')debugger;
                                                   node.append(This.previewElement);
                                             }
                                       }
@@ -727,7 +728,7 @@
                                 var k     = typeof key=='symbol' ? getKeySymbolText(key) : getKeyText(key);
                                 var t     = k+colon+' ';
                                 var el    = dObj.getElement(t,1);
-                                if(typeof el=='string')debugger;
+                                                                                if(typeof el=='string')debugger;
                                 node.append(el);
                           });
                           
@@ -762,14 +763,15 @@
             var isArray     = this.data instanceof Array;
             var maxLength   = maxObjectPreviewLength;
             var previewEl   = define('<span></span>');
-    
+                                                                                if(typeof this.prefix=='string')debugger;
             previewEl.append(this.prefix);
             
             if(isArray){
                   previewEl.append('('+keys.length+') ');
             }else{
                   if(this.data.__proto__!=Object.prototype){
-                        previewEl.append(this.data.__proto__.constructor.name+' ');
+                        var str   = this.data.__proto__.constructor.name;
+                        previewEl.append(str+' ');
                   }
             }
             var html    = isArray ? lSquareBrack : lBrace;
@@ -803,7 +805,9 @@
 
         
                         if(i>0){
-                              previewEl.append(comma+' ');
+                              var html    = comma+' '
+                              var node    = define(html);
+                              previewEl.append(node);
                         }
 
                         
