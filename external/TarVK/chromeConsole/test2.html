@@ -47,11 +47,36 @@ console.clear();
               onInput         : function (text) {},
               onRightClick    : function (obj) {},
         };
+        
+        
         var con   = new Console(params,node);
         
-        debugger;
-        con.log({hello:'world'});
 
+
+        var test    = {
+              hello:'world',
+              key:'value',
+              test:123,
+              debug:true
+        };
+        
+        con.log(test);
+        
+        
+        function fn(){
+          
+              alert(1);
+              
+        }//fn
+        
+        //debugger;
+        con.log(fn);
+
+
+        con.log('hello');
+        con.log([1,2,3,{a:9}]);
+        
+        
 
 
 })();
