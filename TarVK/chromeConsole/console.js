@@ -451,7 +451,7 @@
                                       var node    = define(html);
                                       lineEl.append(node);
                                       
-                                      if(typeof file.el=='string')debugger;
+                                                                                if(df && typeof file.el=='string')debugger;
                                       lineEl.append(file.el);
                                       
                                       var html    = `
@@ -529,7 +529,7 @@
                                       if(!specialObj(This.data)){
                                       
                                             var node          = This.element.querySelector('.header');
-                                                                                if(typeof This.prefix!='string')debugger;
+                                                                                if(df && typeof This.prefix!='string')debugger;
                                             node.innerHTML    = This.prefix;
                                       }else{
                                             var list    = This.element.querySelectorAll(':scope>.content');
@@ -537,7 +537,7 @@
                                             
                                             if(!specialObj(This.data)){
                                                   var node    = This.element.querySelector('.header');
-                                                                                if(typeof This.previewElement=='string')debugger;
+                                                                                if(df && typeof This.previewElement=='string')debugger;
                                                   node.append(This.previewElement);
                                             }
                                       }
@@ -548,9 +548,8 @@
                     }
               }else{
                     if(!this.element){
-                          var r   = this.getNonObjectData();
-                          debugger;
-                          this.element = r;
+                          var r           = this.getNonObjectData();
+                          this.element    = r;
                     }
               }
 
@@ -579,7 +578,7 @@
 
 
         
-        DataObject.prototype.getNonObjectData   = function(preview) {
+        DataObject.prototype.getNonObjectData   = function(preview){
         
               var html;
               
@@ -716,6 +715,7 @@
               if(this.data && this.data.__proto__ != Object.prototype){
                     keys.push('__proto__');
               }
+
                     
               for(var i=0;i<keys.length;i++){
               
@@ -743,7 +743,7 @@
                                 var k     = typeof key=='symbol' ? getKeySymbolText(key) : getKeyText(key);
                                 var t     = k+colon+' ';
                                 var el    = dObj.getElement(t,1);
-                                                                                if(typeof el=='string')debugger;
+                                                                                if(df && typeof el=='string')debugger;
                                 node.append(el);
                           });
                           
@@ -778,7 +778,7 @@
             var isArray     = this.data instanceof Array;
             var maxLength   = maxObjectPreviewLength;
             var previewEl   = define('<span></span>');
-                                                                                if(typeof this.prefix=='string')debugger;
+                                                                                if(df && typeof this.prefix=='string')debugger;
             var node    = this.prefix;
             if(typeof node=='string'){
                   node    = define(node);
@@ -834,7 +834,7 @@
                         var s   = htmlEscape(key)+colon+' ';
                         var t   = (isArray && key==i) ? '' : s;
                         var r   = dObj.getPreviewElement(t,depth+1);
-                                                                                if(typeof r=='string')debugger;
+                                                                                if(df && typeof r=='string')debugger;
                         previewEl.append(r);
                       
                   }//for
@@ -1177,20 +1177,21 @@
         }//$print
         
         
-        Console.prototype.output = function() {
+        Console.prototype.output = function(){
         
               var args    = Array.from(arguments);
               args.unshift('return');
               var ret     = this.$print.apply(this, args);
               var el      = ret.element;
-              var node    = define("<div class='"+dividerClass+"'></div>");
+              var html    = `<div class='${dividerClass}'></div>`;
+              var node    = define(html);
               el.append(node);
               return ret;
               
         }//output
         
         
-        Console.prototype.log = function() {
+        Console.prototype.log = function(){
           
               var prevPrint   = this.$getLastPrint();
                                                                                 //  increment log counter code
@@ -1220,10 +1221,12 @@
             
                                                                                 //  increment counter
                                 var icon    = prevPrint.element.find('.outputIcon');
-                                icon.addClass('number');
-                                var n         = parseInt(icon.text());
-                                var number    = (n||1)+1;
+                                icon.classList.add('number');
+                                
+                                var n               = parseInt(icon.text());
+                                var number          = (n||1)+1;
                                 icon.textContent    = number;
+                                
                                 var node    = prevPrint.element;
                                 var list    = node.querySelectorAll('.outputData');
                                 list.forEach(node=>{
@@ -1254,7 +1257,7 @@
         }//log
         
         
-        Console.prototype.error   = function() {
+        Console.prototype.error   = function(){
         
               var args    = Array.from(arguments);
               this.$makeStringsPlain(args);
@@ -1265,7 +1268,7 @@
         }//error
         
         
-        Console.prototype.warn    = function() {
+        Console.prototype.warn    = function(){
         
               var args    = Array.from(arguments);
               this.$makeStringsPlain(args);
@@ -1276,7 +1279,7 @@
         }//warn
         
         
-        Console.prototype.info    = function() {
+        Console.prototype.info    = function(){
         
               var args    = Array.from(arguments);
               this.$makeStringsPlain(args);
@@ -1287,7 +1290,7 @@
         }//info
         
         
-        Console.prototype.clear   = function() {
+        Console.prototype.clear   = function(){
         
               while(this.elementLog.length>0){
               
@@ -1301,7 +1304,7 @@
         }//clear
         
         
-        Console.prototype.time    = function(label) {
+        Console.prototype.time    = function(label){
         
               var now   = new Date();
               if(!this.timers){
@@ -1315,7 +1318,7 @@
         }//time
         
         
-        Console.prototype.timeEnd   = function(label) {
+        Console.prototype.timeEnd   = function(label){
         
               var now   = new Date();
               if(!this.timers){
@@ -1420,7 +1423,7 @@
         }//$removeElement
         
         
-        Console.prototype.$removeHistory    = function(element) {
+        Console.prototype.$removeHistory    = function(element){
         
               if(element==null){
                                                                                     //  remove untill below threshold
