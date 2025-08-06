@@ -30,7 +30,7 @@
   
         
         var Range           = ace.require('ace/range').Range;
-        var log             = console.log.bind(console);
+        var log             = window.console.log.bind(console);
                                                                                 // extracts the line number at the end of a file in an error log
         var fileRegex       = /((?:https?:\/\/|www\.)(?:(?:[^\.\:])*(?:\.|\:))(?:[^:\/]+\/)*([^:\/]+)*)(?::(\d*))?(?::(\d*))?/; 
         var evalFileRegex   = /\((((?:[^):\/]+\/)*([^):\/]+)*)(?::(\d*))?(?::(\d*))?)/;
