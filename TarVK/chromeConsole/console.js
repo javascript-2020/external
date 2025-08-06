@@ -22,11 +22,11 @@
                     return text;
               }
               if(!format){
-                    return text.replace(/\n/g,"&crarr;");
+                    return text.replace(/\n/g,'&crarr;');
               }
               
               text    = text.replace(/^(\s(?!\n))+/gm,m=>("<span style=display:inline-block;margin-left:"+m.length*10+"px></span>"));
-              text    = text.replace(/\n/g, "<br>");
+              text    = text.replace(/\n/g,"<br>");
               text    = text.replace(/\t/g,"<span style=display:inline-block;margin-left:20px></span>");
               return text;
               
@@ -56,6 +56,7 @@
             "<div class='js-console output'>"   +
             "</div>"                            +
             inputCodeTemplate.replace("inputCode","inputCode input");
+
     
         var dividerClass    = "ace_print-margin";
         var lBrace          = "<span class='ace_lparen'>{</span>";
@@ -202,9 +203,8 @@
               `);
               
               var node    = element.querySelector('.header-outer');
-              var first   = node.firstElementChild;
               
-              first.onmouseup    = function(e){
+              node.onmouseup    = function(e){
               
                       if(e.button==0){
                                                                                   // Store the current scroll offset
@@ -262,7 +262,7 @@
                       
                   }//onmouseup
                   
-                  first.onmousedown    = function(e) {
+                  node.onmousedown    = function(e) {
                                                                                   //  Remove double click text selection:
                                                                                   //  https://stackoverflow.com/a/43321596
                         if(e.button==0 && e.detail>1){
@@ -311,15 +311,15 @@
               
               if(fileMatch){
               
-                    var file          = fileMatch[2]||"(index)";
-                    var lineNumber    = fileMatch[3]||"";
+                    var file          = fileMatch[2]||'(index)';
+                    var lineNumber    = fileMatch[3]||'';
                     if(file && lineNumber){
-                          file   += ":";
+                          file   += ':';
                     }
         
-                    out.el      = createCollapseEl("");
+                    out.el      = createCollapseEl('');
                     
-                    var txt     = file.replace(/%20/g," ")+lineNumber;
+                    var txt     = file.replace(/%20/g,' ')+lineNumber;
                     var list    = out.el.querySelectorAll('.header');
                     list.forEach(node=>node.append(txt));
 
@@ -339,13 +339,13 @@
               }else if(evalFileMatch){
               
                     var file          = evalFileMatch[3];
-                    var lineNumber    = evalFileMatch[4]||"";
+                    var lineNumber    = evalFileMatch[4]||'';
                     if(file&&lineNumber){
-                          file   += ":";
+                          file   += ':';
                     }
         
-                    out.el      = createCollapseEl("");
-                    var txt     = file.replace(/%20/g," ")+lineNumber;
+                    out.el      = createCollapseEl('');
+                    var txt     = file.replace(/%20/g,' ')+lineNumber;
                     var list    = out.el.querySelectorAll('.header');
                     list.forEach(node=>node.append(txt));
   
@@ -369,12 +369,12 @@
         }//getFileLocationElement
     
                                                                                   //data to be logged
-        function DataObject(data, outputLineData, parent, name) {
+        function DataObject(data,outputLineData,parent,name){
         
             this.data             = data;
             this.element          = null;
             this.previewElement   = null;
-            this.prefix           = "";
+            this.prefix           = '';
             this.outputLineData   = outputLineData;
             this.parent           = parent;
             this.name             = name;
@@ -388,8 +388,9 @@
                     this.prefix   = prefix;
               }
               
-              if(this.data!=null && typeof this.data=="object" && !specialObj(this.data)){
-                    return this.createObjectName(depth);
+              if(this.data!=null && typeof this.data=='object' && !specialObj(this.data)){
+                    var result    = this.createObjectName(depth);
+                    return result;
               }else{
                     var html    = this.getNonObjectData(true);
                     var node    = define(html);
@@ -412,18 +413,18 @@
       
               if(this.data instanceof Error){
                     if(!this.element){
-                          this.element    = createCollapseEl("errorMessage","errorOutput");
+                          this.element    = createCollapseEl('errorMessage','errorOutput');
                           var node        = this.element.querySelector('.header');
                           var txt         = getErrorText(this.data);
                           if(typeof txt=='string')debugger;
                           node.append(txt);
                           var errorStack    = htmlEscape(this.data.stack,false);
-                          var errorLines    = errorStack.split("\n");
+                          var errorLines    = errorStack.split('\n');
                                                                                   //first line isn't needed
                           errorLines.shift();
                           errorLines.forEach(function(line){
                           
-                                var lineEl    = define("<span>");
+                                var lineEl    = define('<span></span>');
                                 This.element.querySelectorAll(':scope>.content').forEach(node=>{
                                 
                                       var clone   = lineEl.cloneNode(true);
@@ -433,19 +434,34 @@
                                 
                                 var file      = getFileLocationElement(line,'errorLocation');
                                 if(file){
-                                      var html    = 
-                                            "<span margin-left:20px;>"            +
-                                                  line.substring(0,file.start)    +
-                                            "</span>";
+                                
+                                      var html    = `
+                                            <span style='margin-left:20px'>
+                                                  ${line.substring(0,file.start)}
+                                            </span>
+                                      `;
                                       var node    = define(html);
                                       lineEl.append(node);
+                                      
                                       if(typeof file.el=='string')debugger;
                                       lineEl.append(file.el);
-                                      var html    = "<span>"+line.substring(file.end)+"</span><br>";
+                                      
+                                      var html    = `
+                                            <span>
+                                                  ${line.substring(file.end)}
+                                            </span>
+                                            <br>
+                                      `;
                                       var node    = define(html);
                                       lineEl.append(node);
+                                      
                                 }else{
-                                      var html    = "<span margin-left:20px;>"+line+"</span><br>";
+                                      var html    = `
+                                            <span style='margin-left:20px'>
+                                                  ${line}
+                                            </span>
+                                            <br>
+                                      `;
                                       var node    = define(html);
                                       lineEl.append(node);
                                 }
@@ -486,7 +502,7 @@
                                 this.previewElement   = define(this.previewElement);
                           }
                           
-                          var node    = this.element.querySelector(".header");
+                          var node    = this.element.querySelector('.header');
                           node.replaceChildren();
                           node.append(this.previewElement);
                           
@@ -496,7 +512,7 @@
                           this.createObjectData();
                     }else if(newElement){
                     
-                          var node        = this.element.querySelector(".header-outer");
+                          var node        = this.element.querySelector('.header-outer');
                           node.onclick    = function(e) {
                               
                                 var opens   = This.element.classList.contains('open');
@@ -505,17 +521,15 @@
                                       if(!specialObj(This.data)){
                                       
                                             var node          = This.element.querySelector('.header');
-                                            var first         = node.firstElementChild;
-                                            first.innerHTML   = This.prefix;
+                                            node.innerHTML    = This.prefix;
                                       }else{
                                             var list    = This.element.querySelectorAll(':scope>.content');
                                             list.forEach(node=>node.replaceChildren());
                                             
                                             if(!specialObj(This.data)){
                                                   var node    = This.element.querySelector('.header');
-                                                  var first   = node.firstElementChild;
                                                   if(typeof This.previewElement=='string')debugger;
-                                                  first.append(This.previewElement);
+                                                  node.append(This.previewElement);
                                             }
                                       }
                                 }
@@ -536,7 +550,7 @@
                   this.element.onmouseup    = function(e){
                   
                         if(e.button==2){
-                              This.outputLineData.console.$trigger("rightClick",This);
+                              This.outputLineData.console.$trigger('rightClick',This);
                               e.stopImmediatePropagation();
                               e.preventDefault();
                         }
@@ -679,11 +693,12 @@
                                                                                   //  Symbols are still not universally supported.
                                                                                   //  But if they do exist, include in output
               if(Object.getOwnPropertySymbols){
-                    keys    = keys.concat(Object.getOwnPropertySymbols(this.data));
+                    var syms    = Object.getOwnPropertySymbols(this.data);
+                    keys        = keys.concat(syms);
               }
               
               if(this.data && this.data.__proto__ != Object.prototype){
-                    keys.push("__proto__");
+                    keys.push('__proto__');
               }
                     
               for(var i=0;i<keys.length;i++){
@@ -691,8 +706,9 @@
                     var key   = keys[i];
                     try {
                                                                                 //  try to catch arguments request on function
+
                           var obj;
-                          if(this.getterObj && key!="__proto__"){
+                          if(this.getterObj && key!='__proto__'){
                                 obj   = this.getterObj[key];
                           }else{
                                 obj   = this.data[key];
@@ -700,15 +716,16 @@
           
                                                                                 // var obj = this.data[key];
                           var dObj    = new DataObject(obj,this.outputLineData,this,key);
-                          if(key=="__proto__"){
+                          if(key=='__proto__'){
                                 dObj.getterObj    = this.getterObj || this.data;
                           }
+
           
                           var list    = this.element.querySelectorAll(':scope>.content');
                           list.forEach(node=>{
                                 
                                 var k     = typeof key=='symbol' ? getKeySymbolText(key) : getKeyText(key);
-                                var t     = k+colon+" ";
+                                var t     = k+colon+' ';
                                 var el    = dObj.getElement(t,1);
                                 if(typeof el=='string')debugger;
                                 node.append(el);
@@ -734,12 +751,14 @@
         
         DataObject.prototype.createObjectName = function(depth) {
         
-            var keys = Object.keys(this.data);
+            var keys    = Object.keys(this.data);
                                                                                   //  Symbols are still not universally supported.
                                                                                   //  But if they do exist, include in output
             if(Object.getOwnPropertySymbols){
-                  keys    = keys.concat(Object.getOwnPropertySymbols(this.data));
+                  var syms    = Object.getOwnPropertySymbols(this.data);
+                  keys        = keys.concat(syms);
             }
+            
             var isArray     = this.data instanceof Array;
             var maxLength   = maxObjectPreviewLength;
             var previewEl   = define('<span></span>');
@@ -747,10 +766,10 @@
             previewEl.append(this.prefix);
             
             if(isArray){
-                  previewEl.append("(" + keys.length + ") ");
+                  previewEl.append('('+keys.length+') ');
             }else{
                   if(this.data.__proto__!=Object.prototype){
-                        previewEl.append(this.data.__proto__.constructor.name+" ");
+                        previewEl.append(this.data.__proto__.constructor.name+' ');
                   }
             }
             var html    = isArray ? lSquareBrack : lBrace;
@@ -768,6 +787,7 @@
                         }
                         
                         var key   = keys[i];
+
         
                         var obj;
                         if(this.getterObj && key!='__proto__'){
@@ -780,24 +800,31 @@
                         if(key=='__proto__'){
                               dObj.getterObj    = this.getterObj||this.data;
                         }
+
         
                         if(i>0){
                               previewEl.append(comma+' ');
                         }
+
                         
                         var s   = htmlEscape(key)+colon+' ';
-                        var t   = isArray && key==i ? '' : s;
+                        var t   = (isArray && key==i) ? '' : s;
                         var r   = dObj.getPreviewElement(t,depth+1);
+                                                                                if(typeof r=='string')debugger;
                         previewEl.append(r);
                       
                   }//for
                   
                   if(i<keys.length){
-                        previewEl.append(comma+' '+ddd);
+                        var html    = comma+' '+ddd;
+                        var node    = define(html);
+                        previewEl.append(node);
                   }
                   
             }else{
-                  previewEl.append(ddd);
+                  var html    = ddd;
+                  var node    = define(html);
+                  previewEl.append(node);
             }
     
             var html    = isArray ? rSquareBrack : rBrace;
@@ -812,9 +839,11 @@
         DataObject.prototype.getPath    = function(){
         
               if(this.parent){
-                    return this.parent.getPath()+"."+this.name;
+                    var str   = this.parent.getPath()+'.'+this.name;
+                    return str;
               }else{
-                    return this.outputLineData.dataObjects.indexOf(this)+"";
+                    var str   = this.outputLineData.dataObjects.indexOf(this)+'';
+                    return str;
               }
               
         }//getPath
@@ -823,36 +852,40 @@
     
     
                                                                                     //console interface
-        var Console = function(data,element){
+        var Console   = function(data,element){
         
-              if (Object.keys(this).length == 0) {
+              if(Object.keys(this).length==0){
               
-                    if (!data) data = {};
+                    if(!data)data   = {};
         
                     var This        = this;
                     var el          = element;
                     el.innerHTML    = consoleTemplate;
-                    el.classList.add("js-console","root");
-                    element.oncontextmenu = function() {
+                    el.classList.add('js-console','root');
+                    element.oncontextmenu   = function(){
                     
                             return false;
                             
-                    };
+                    }//oncontextmenu
         
                     if(!data)data               = {};
-                    if(!data.theme)data.theme   = "xcode";
-                    if(!data.mode)data.mode     = "javascript";
-                    if(!data.style)data.style   = "light";
+                    if(!data.theme)data.theme   = 'xcode';
+                    if(!data.mode)data.mode     = 'javascript';
+                    if(!data.style)data.style   = 'light';
         
                                                                                     //create ace editors
-                    this.outputEl       = el.querySelector(".output");
-                    this.inputEditor    = setupEditor(el.querySelectorAll(".input")[0],data.theme,data.mode);
-                    this.inputEditor.on("change", function() {
+                    this.outputEl       = el.querySelector('.output');
+                    var node            = el.querySelector('.input');
+                    this.inputEditor    = setupEditor(node,data.theme,data.mode);
+                    this.inputEditor.on('change',function(){
                     
-                          el.scrollTop(el[0].scrollHeight);
-                          setTimeout(function() {
+                          var h           = el.scrollHeight;
+                          el.scrollTop    = h;
+                          
+                          setTimeout(function(){
                                                                                     //must wait some time for new line to process
-                                el.scrollTop(el[0].scrollHeight);
+                                var h           = el.scrollHeight;
+                                el.scrollTop    = h;
                                 
                           });
                           
@@ -862,79 +895,77 @@
                     {
                     
                           this.inputEditor.commands.addCommand({
-                                name: "enter",
-                                bindKey: { win: "Enter", mac: "Enter" },
-                                exec: function(editor) {
+                                name      : 'enter',
+                                bindKey   : {win:'Enter',mac:'Enter'},
+                                exec      : function(editor){
                                 
-                                    This.$handleInput();
-                                    return true;
-                                    
-                                }//exec
+                                                  This.$handleInput();
+                                                  return true;
+                                                  
+                                              }//exec
                           });
                             
                           this.inputEditor.commands.addCommand({
-                              name: "arrowUp",
-                              bindKey: { win: "Up", mac: "Up" },
-                              exec: function(editor) {
+                              name      : 'arrowUp',
+                              bindKey   : {win:'Up',mac:'Up'},
+                              exec      : function(editor){
                               
-                                    if (editor.selection.getCursor().row == 0) {
-                                        This.$prevHistory();
-                                        return true;
-                                    }
-                                    return false;
-                                    
-                              }//exec
+                                                if(editor.selection.getCursor().row==0){
+                                                      This.$prevHistory();
+                                                      return true;
+                                                }
+                                                return false;
+                                                
+                                          }//exec
                           });
                           
                           this.inputEditor.commands.addCommand({
-                              name: "arrowDown",
-                              bindKey: { win: "Down", mac: "Down" },
-                              exec: function(editor) {
+                              name      : 'arrowDown',
+                              bindKey   : {win:'Down',mac:'Down'},
+                              exec      : function(editor) {
                               
-                                    if (
-                                        editor.selection.getCursor().row ==
-                                        editor.session.getLength() - 1
-                                    ) {
-                                        This.$nextHistory();
-                                        return true;
-                                    }
-                                    return false;
-                                    
-                              }//exec
+                                                var r   = editor.session.getLength()-1;
+                                                if(editor.selection.getCursor().row==r){
+                                                    This.$nextHistory();
+                                                    return true;
+                                                }
+                                                return false;
+                                                
+                                          }//exec
                           });
                           
                           this.inputEditor.commands.addCommand({
-                              name: "terminate",
-                              bindKey: { win: "Ctrl-C", mac: "Cmd-C" },
-                              exec: function(editor) {
+                              name      : 'terminate',
+                              bindKey   : {win:'Ctrl-C',mac:'Cmd-C'},
+                              exec      : function(editor){
                               
-                                    var range = editor.selection.getRange();
-                                    if (
-                                        range.start.row == range.end.row &&
-                                        range.start.column == range.end.column
-                                    ) {
-                                        if (This.$trigger("terminate")) {
-                                            This.warn("Code execution terminated");
-                                        }
-                                        return true;
-                                    }
-                                    return false;
-                                    
-                              }//exec
+                                                var range   = editor.selection.getRange();
+                                                if( range.start.row==range.end.row          &&
+                                                    range.start.column==range.end.column
+                                                ){
+                                                      if(This.$trigger('terminate')){
+                                                            This.warn('Code execution terminated');
+                                                      }
+                                                      return true;
+                                                }
+                                                return false;
+                                                
+                                          }//exec
                           });
                           
                     }
                     
-                    el.classList.add("ace-"+data.theme,data.style);
+                    el.classList.add('ace-'+data.theme,data.style);
         
                                                                                     //FIX: "Input element isn't focussed when 
                                                                                     //clicking in the history element #5"
-                    el.click(function(e) {
+                    el.onclick    = function(e){
                     
-                          if (window.getSelection().toString() == "")
+                          if(window.getSelection().toString()==''){
                                 This.inputEditor.focus();
+                          }
                                 
-                    });
+                    }//onclick
         
                                                                                     //create variables needed to manage the console
                     this.data               = data;
@@ -957,13 +988,19 @@
                     var keys    = Object.keys(this.listeners);
                     for(var i=0;i<keys.length;i++){
                     
-                          var key = keys[i];
-                          var name = "on" + key[0].toUpperCase() + key.substring(1);
-                          if (this.data[name]) this[`on${key}`]=this.data[name];
+                          var key     = keys[i];
+                          var upper   = key[0].toUpperCase();
+                          var sub     = key.substring(1);
+                          var name    = 'on'+upper+sub;
+                          if(this.data[name]){
+                                this[`on${key}`]    = this.data[name];
+                          }
                           
                     }//for
               }else{
-                    if (!this[0].console) this[0].console = new Console(data, this[0]);
+                    if(!this[0].console){
+                          this[0].console   = new Console(data,this[0]);
+                    }
                     return this[0].console;
               }
               
@@ -991,7 +1028,7 @@
               var node      = el.querySelector('.inputCode');
               var editor    = setupEditor(node,this.data.theme,this.data.mode);
               editor.setReadOnly(true);
-              editor.renderer.$cursorLayer.element.style.display    = "none";
+              editor.renderer.$cursorLayer.element.style.display    = 'none';
               editor.setValue(text,-1);
       
                                                                                     //  FIX: "Input element isn't focussed when clicking
@@ -999,11 +1036,15 @@
               var ThisConsole   = this;
               
               var list    = el.querySelectorAll('*');
-              list.forEach(node=>node.onclick   = e=>{
+              list.forEach(node=>{
               
-                    if(editor.getSelectedText()==''){
-                          ThisConsole.inputEditor.focus();
-                    }
+                    node.onclick   = e=>{
+              
+                          if(editor.getSelectedText()==''){
+                                ThisConsole.inputEditor.focus();
+                          }
+                          
+                    }//onclick
                     
               });
               
