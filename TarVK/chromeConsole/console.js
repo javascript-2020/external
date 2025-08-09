@@ -206,7 +206,7 @@
         
     
                                                                                   //some util functions
-        function setupEditor(el, style, mode) {
+        function setupEditor(el,style,mode){
         
               var editor    = ace.edit(el);
               editor.setTheme('ace/theme/'+style);
