@@ -34,6 +34,7 @@
               };              
               
               var cons      = new Console(params,root);
+                                                                                console.log(cons);
               return cons;
         
         }//create
