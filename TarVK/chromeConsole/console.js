@@ -11,19 +11,31 @@
 
   //:
 
-        var store
+        var store,ace
         ;
         
   
         obj.initmod   = function(params){
         
               store   = params.store;
+              ace     = params.ace;
 
               
         }//initmod
         
+        
+  //:
+  
+  
+        obj.init    = function(){
+          
+              Range           = ace.require('ace/range').Range;
+              
+        }//init
+        
 
   //:        
+
 
         obj.create    = function(root){
 
@@ -44,7 +56,7 @@
   
   
         
-        var Range           = ace.require('ace/range').Range;
+        var Range;
         //var log             = window.console.log.bind(console);
                                                                                 // extracts the line number at the end of a file in an error log
         var fileRegex       = /((?:https?:\/\/|www\.)(?:(?:[^\.\:])*(?:\.|\:))(?:[^:\/]+\/)*([^:\/]+)*)(?::(\d*))?(?::(\d*))?/; 
