@@ -19,6 +19,7 @@
         
               store   = params.store;
               ace     = params.ace;
+              if(!ace)debugger;
 
               
         }//initmod
