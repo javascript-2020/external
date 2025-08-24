@@ -638,6 +638,7 @@
         DataObject.prototype.getNonObjectData   = function(preview){
         
               var html;
+              var node;
               
               switch(true){
               
@@ -743,7 +744,11 @@
                                                       `;
                                                       
                                                       break;
-                    
+                                                      
+                case (isnode(this.data))            : 
+                                                      node    = this.data;
+                                                      break;
+                
                 default                             :
               
                                                       html    = `
@@ -753,7 +758,9 @@
                                                       `;
               }//switch
               
-              var node    = define(html);
+              if(!node){
+                    node    = define(html);
+              }
               return node;
             
         }//getNonObjectData
