@@ -346,14 +346,23 @@
         
         function specialObj(obj){
         
-              var result    = (
-                  obj instanceof Function ||
-                  obj instanceof RegExp ||
-                  obj instanceof Error
-              );
-              return result;
+              if(obj instanceof Function)return true;
+              if(obj instanceof RegExp)return true;
+              if(obj instanceof Error)return true;
+              if(isnode(obj))return true;
+              return false;
               
         }//specialObj
+        
+        
+        function isnode(v){
+          
+              if(!v)return;
+              if(!v.nodeType)return;
+              if(!v.nodeName)return;
+              return true;
+              
+        }//isnode
         
         
         function getFileLocationElement(line,clas){
