@@ -482,7 +482,8 @@
                           var node        = this.element.querySelector('.header');
                           var txt         = getErrorText(this.data);
                           var span        = define(txt);
-                          //if(typeof txt=='string')debugger;
+                                                                                debugger;
+                                                                                //if(typeof txt=='string')debugger;
                           node.append(txt);
                           var errorStack    = htmlEscape(this.data.stack,false);
                           var errorLines    = errorStack.split('\n');
