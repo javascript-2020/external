@@ -481,7 +481,8 @@
                           this.element    = createCollapseEl('errorMessage','errorOutput');
                           var node        = this.element.querySelector('.header');
                           var txt         = getErrorText(this.data);
-                          if(typeof txt=='string')debugger;
+                          var span        = define(txt);
+                          //if(typeof txt=='string')debugger;
                           node.append(txt);
                           var errorStack    = htmlEscape(this.data.stack,false);
                           var errorLines    = errorStack.split('\n');
