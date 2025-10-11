@@ -492,12 +492,16 @@
                           errorLines.forEach(function(line){
                           
                                 var lineEl    = define('<span></span>');
+                                
+                                
                                 This.element.querySelectorAll(':scope>.content').forEach(node=>{
                                 
-                                      var clone   = lineEl.cloneNode(true);
-                                      node.append(clone);
+                                      //var clone   = lineEl.cloneNode(true);
+                                      node.append(lineEl);
                                       
                                 });
+                                
+                                
                                 
                                 var file      = getFileLocationElement(line,'errorLocation');
                                 if(file){
