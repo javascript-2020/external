@@ -1753,7 +1753,7 @@
         Console.prototype.ansi    = function(html){
           
               var node    = define(html);
-              this.output('debug',node);
+              this.$print('debug',node);
               
         }//ansi
 
