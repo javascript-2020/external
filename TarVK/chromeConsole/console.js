@@ -484,7 +484,7 @@
                           var span        = define(txt);
                                                                                 debugger;
                                                                                 //if(typeof txt=='string')debugger;
-                          node.append(txt);
+                          node.append(span);
                           var errorStack    = htmlEscape(this.data.stack,false);
                           var errorLines    = errorStack.split('\n');
                                                                                   //first line isn't needed
