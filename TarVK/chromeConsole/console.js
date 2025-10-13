@@ -11,13 +11,12 @@
 
   //:
 
-        var store,ace
+        var ace
         ;
         
   
         obj.initmod   = function(params){
         
-              store   = params.store;
               ace     = params.ace;
               if(!ace)debugger;
 
