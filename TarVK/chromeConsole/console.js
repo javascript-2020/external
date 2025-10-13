@@ -1,9 +1,9 @@
 
 
 
-(function() {
+(function(){
 
-  obj   = {};
+  var obj   = {};
 
   
         var df              = false;
