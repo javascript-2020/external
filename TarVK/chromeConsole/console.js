@@ -91,6 +91,7 @@
         var maxHistoryLength          = 140;
         var maxObjectPreviewLength    = 60; //characters
         var maxStringPreviewLength    = 30; //characters
+
         
         var inputCodeTemplate =
             "<div class='js-console inputLine'>"              +
@@ -487,7 +488,6 @@
                           node.append(span);
                           var errorStack    = htmlEscape(this.data.stack,false);
                           var errorLines    = errorStack.split('\n');
-                                                                                  //first line isn't needed
                           errorLines.shift();
                           errorLines.forEach(function(line){
                           
@@ -496,7 +496,6 @@
                                 
                                 This.element.querySelectorAll(':scope>.content').forEach(node=>{
                                 
-                                      //var clone   = lineEl.cloneNode(true);
                                       node.append(lineEl);
                                       
                                 });
