@@ -46,7 +46,7 @@
               };              
               
               var cons      = new Console(params,root);
-                                                                                window.console.log(cons);
+                                                                                //window.console.log(cons);
               return cons;
         
         }//create
