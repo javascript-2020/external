@@ -127,77 +127,77 @@
         var func            = "<span class=''>f</span>"+lBrack+rBrack;
         
         
-        function getNumericText(val, clas) {
+        function getNumericText(val,clas){
         
               return (
-                  "<span class='" + (clas || "") +" ace_constant ace_numeric'>" +
-                      htmlEscape(val.toString()) +
+                  "<span class='"+(clas||"")+" ace_constant ace_numeric'>"    +
+                      htmlEscape(val.toString())                              +
                   "</span>"
               );
               
         }//getNumericText
         
         
-        function getStringText(val, clas) {
+        function getStringText(val,clas){
         
               return (
-                  "<span class='" + (clas || "") + " ace_string'>" +
-                      htmlEscape(val.toString()) +
+                  "<span class='"+(clas||"")+" ace_string'>"                  +
+                      htmlEscape(val.toString())                              +
                   "</span>"
               );
             
         }//getStringText
         
         
-        function getRegexText(val, clas) {
+        function getRegexText(val,clas){
         
               return (
-                  "<span class='" + (clas || "") + " ace_string'>" +
-                      htmlEscape(val.toString()) +
+                  "<span class='"+(clas||"")+" ace_string'>"                  +
+                      htmlEscape(val.toString())                              +
                   "</span>"
               );
               
         }//getRegexText
         
         
-        function getBooleanText(val, clas) {
+        function getBooleanText(val,clas){
         
               return (
-                  "<span class='" + (clas || "") + " ace_constant ace_language ace_boolean'>" +
-                      htmlEscape(val.toString()) +
+                  "<span class='"+(clas||"")+" ace_constant ace_language ace_boolean'>"     +
+                      htmlEscape(val.toString())                                            +
                   "</span>"
               );
               
         }//getBooleanText
         
         
-        function getErrorText(val, clas) {
+        function getErrorText(val,clas){
         
               return (
-                  "<span class='" + (clas || "") + " errorText'>" +
-                      htmlEscape(val.toString()) +
+                  "<span class='"+(clas||"")+" errorText'>"   +
+                      htmlEscape(val.toString())              +
                   "</span>"
               );
               
         }//getErrorText
         
         
-        function getKeyText(val, clas) {
+        function getKeyText(val,clas){
         
               return (
-                  "<span class='" + (clas || "") + " objectKey ace_constant ace_language'>" +
-                      htmlEscape(val.toString()) +
+                  "<span class='"+(clas||"")+" objectKey ace_constant ace_language'>"     +
+                      htmlEscape(val.toString())                                          +
                   "</span>"
               );
               
         }//getKeyText
         
         
-        function getSymbolText(val, clas) {
+        function getSymbolText(val,clas){
         
               return (
-                  "<span class='" + (clas || "") + " objectSymbol ace_string ace_language'>" +
-                      htmlEscape(val.toString()) +
+                  "<span class='"+(clas||"")+" objectSymbol ace_string ace_language'>"    +
+                      htmlEscape(val.toString())                                          +
                   "</span>"
               );
               
@@ -248,7 +248,7 @@
         
         function createCollapseEl(clas,parClass){
           
-              var element = define(`
+              var element   = define(`
                     <span class='js-console-collapsible js-console ${(parClass||"")}'>
                           <div class='js-console-collapsible header-outer js-console'>
                                 <span class='js-console header-arrow'></span>
