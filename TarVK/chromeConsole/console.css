@@ -1,7 +1,7 @@
 .js-console.root {
     word-break: break-word;
     overflow-y: scroll;
-    font: 12px / normal "Monaco", "Menlo", "Ubuntu Mono", "Consolas",
+    font: 16px / normal "Monaco", "Menlo", "Ubuntu Mono", "Consolas",
         "source-code-pro", monospace;
 }
 
