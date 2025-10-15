@@ -1288,7 +1288,7 @@
                                 }//for
             
                                                                                 //  increment counter
-                                var icon    = prevPrint.element.find('.outputIcon');
+                                var icon    = prevPrint.element.querySelector('.outputIcon');
                                 icon.classList.add('number');
                                 
                                 var n               = parseInt(icon.text());
