@@ -229,7 +229,8 @@
               editor.getSession().setUseSoftTabs(true);
               editor.setShowPrintMargin(false);
               editor.setOptions({
-                    maxLines    : Infinity
+                    maxLines    : Infinity,
+                    fontSize    : '16px',
               });
               editor.$blockScrolling    = Infinity;
               editor.renderer.setShowGutter(false);
