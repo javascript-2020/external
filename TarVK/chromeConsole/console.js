@@ -494,7 +494,7 @@
                                 
                                 
                                 This.element.querySelectorAll(':scope>.content').forEach(node=>{
-                                
+                                                                                console.log('[ should only be one ]','DataObject.prototype.getElement',':scope>.content');
                                       node.append(lineEl);
                                       
                                 });
