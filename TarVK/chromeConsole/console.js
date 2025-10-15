@@ -1291,7 +1291,7 @@
                                 var icon    = prevPrint.element.querySelector('.outputIcon');
                                 icon.classList.add('number');
                                 
-                                var n               = parseInt(icon.text());
+                                var n               = parseInt(icon.textContent);
                                 var number          = (n||1)+1;
                                 icon.textContent    = number;
                                 
