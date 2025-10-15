@@ -303,7 +303,7 @@
                                                                                   //  MaxScroll and minScroll make sure the element's
                                                                                   //  header never scrolls out of the screen
                           var t                 = sh2-oh2-offset;
-                          var max               = Math.max(minScroll,h);
+                          var max               = Math.max(minScroll,h-oh2-offset);
                           var min               = Math.min(maxScroll,max);
                           
                           consoleEl.scrollTop   = min;
@@ -349,7 +349,9 @@
               if(obj instanceof Function)return true;
               if(obj instanceof RegExp)return true;
               if(obj instanceof Error)return true;
+              
               if(isnode(obj))return true;
+              
               return false;
               
         }//specialObj
@@ -411,7 +413,7 @@
                     var list    = out.el.querySelectorAll('.header');
                     list.forEach(node=>node.append(txt));
   
-                    var txt     = evalFileMatch[1].replace(/%20/g," ");
+                    var txt     = evalFileMatch[1].replace(/%20/g,' ');
                     var list    = out.el.querySelectorAll(':scope>.content');
                     list.forEach(node=>node.append(txt));
                     
@@ -429,6 +431,8 @@
               return out;
             
         }//getFileLocationElement
+
+
     
                                                                                   //data to be logged
         function DataObject(data,outputLineData,parent,name){
@@ -537,7 +541,7 @@
                                 
                           });
                     }
-              }else if(this.data != null && (typeof this.data=="object" || specialObj(this.data))){
+              }else if(this.data!=null && (typeof this.data=='object' || specialObj(this.data))){
               
                     var newElement    = false;
                     if(!this.element){
@@ -567,9 +571,9 @@
                                 }
                           }
                           
-                          if(typeof this.previewElement=='string'){
-                                this.previewElement   = define(this.previewElement);
-                          }
+                                                                                if(typeof this.previewElement=='string'){
+                                                                                      this.previewElement   = define(this.previewElement);
+                                                                                }
                           
                           var node    = this.element.querySelector('.header');
                           node.replaceChildren();
@@ -770,7 +774,7 @@
         }//getNonObjectData
         
         
-        DataObject.prototype.createObjectData   = function() {
+        DataObject.prototype.createObjectData   = function(){
         
               var keys    = Object.getOwnPropertyNames(this.data);
                                                                                   //  Symbols are still not universally supported.
@@ -780,7 +784,7 @@
                     keys        = keys.concat(syms);
               }
               
-              if(this.data && this.data.__proto__ != Object.prototype){
+              if(this.data && this.data.__proto__!=Object.prototype){
                     keys.push('__proto__');
               }
 
@@ -833,7 +837,7 @@
         }//createObjectData
         
         
-        DataObject.prototype.createObjectName = function(depth) {
+        DataObject.prototype.createObjectName   = function(depth){
         
             var keys    = Object.keys(this.data);
                                                                                   //  Symbols are still not universally supported.
@@ -861,6 +865,7 @@
                         previewEl.append(str+' ');
                   }
             }
+            
             var html    = isArray ? lSquareBrack : lBrace;
             var node    = define(html);
             previewEl.append(node);
