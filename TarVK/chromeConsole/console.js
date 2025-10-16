@@ -1759,13 +1759,23 @@
               
         }//HtmlElement
         
-        
+
+  //:
+  
+  
         Console.prototype.ansi    = function(html){
           
               var node    = define(html);
               this.$print('debug',node);
               
         }//ansi
+        
+        
+        Console.prototype.write   = function(){
+          
+              this.log.apply(this,arguments);
+              
+        }//write
 
 
 
